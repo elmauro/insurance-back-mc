@@ -1,0 +1,6 @@
+{
+	"server" :
+	{
+		"auth" : "728401402215.dkr.ecr.us-east-1.amazonaws.com/insurance-back-mc:latest"
+	}
+}
