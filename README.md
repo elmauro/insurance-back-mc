@@ -36,9 +36,9 @@ b. Install with Docker (assuming docker installed on current machine)
   1. ./nunit.bat
 
 
-## Application Working
+## API Application Working
 
-You can see the application working on http://mcinsurancebackapi-env.eba-tvwzp2rf.us-east-1.elasticbeanstalk.com/weatherforecast
+You can see the API application working on http://mcinsurancebackapi-env.eba-tvwzp2rf.us-east-1.elasticbeanstalk.com/weatherforecast
 
   
 ## Future Work
