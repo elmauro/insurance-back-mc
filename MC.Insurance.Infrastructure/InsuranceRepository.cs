@@ -82,9 +82,9 @@ namespace MC.Insurance.Infrastructure
 			DataContext.CustomerInsurances.Add(customerInsurance);
 		}
 
-		public void DeleteCustomerInsurance(int customerInsuranceId)
+		public void DeleteCustomerInsurance(string document, int insuranceId)
 		{
-			DTO.CustomerInsurance customerInsurance = DataContext.CustomerInsurances.Find(customerInsuranceId);
+			DTO.CustomerInsurance customerInsurance = DataContext.CustomerInsurances.Where(c => c.document == document && c.insuranceId == insuranceId).First();
 			DataContext.CustomerInsurances.Remove(customerInsurance);
 		}
 	}

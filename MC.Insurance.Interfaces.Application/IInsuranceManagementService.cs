@@ -15,6 +15,6 @@ namespace MC.Insurance.Interfaces.Application
 		Task<ExternalResponse> GetCustomer(string document);
 		Task<ExternalResponse> GetCustomers();
 		Task<ExternalResponse> CreateCustomerInsurance(string document, object customerInsurance);
-		Task<ExternalResponse> DeleteCustomerInsurance(int customerInsuranceId, int insuranceId);
+		Task<ExternalResponse> DeleteCustomerInsurance(string document, int insuranceId);
 	}
 }

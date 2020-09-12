@@ -223,5 +223,35 @@ namespace insurance_back_mc.Controllers
                 return await CreateErrorMessageForException(ex);
             }
         }
+
+        [HttpDelete]
+        [Route("customers/{document}/insurances/{insuranceId}")]
+        public async Task<IActionResult> DeleteCustomerInsurance([FromRoute] string document, int insuranceId)
+        {
+            try
+            {
+                ExternalResponse httpResponse = await insuranceManagementService.DeleteCustomerInsurance(document, insuranceId);
+
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var result = httpResponse.Body;
+                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
+
+                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                }
+                else
+                {
+                    var result = httpResponse.Body;
+                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
+
+                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return await CreateErrorMessageForException(ex);
+            }
+        }
     }
 }

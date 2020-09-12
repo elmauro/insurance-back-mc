@@ -150,9 +150,22 @@ namespace MC.Insurance.Infrastructure
             return task;
         }
 
-        public Task<ExternalResponse> DeleteCustomerInsurance(int customerInsuranceId, int insuranceId)
+        public Task<ExternalResponse> DeleteCustomerInsurance(string document, int insuranceId)
         {
-            throw new NotImplementedException();
+            InsuranceRepository.DeleteCustomerInsurance(document, insuranceId);
+            InsuranceRepository.Save();
+
+            Task<ExternalResponse> task = new Task<ExternalResponse>(() =>
+            {
+                return new ExternalResponse
+                {
+                    IsSuccessStatusCode = true,
+                    StatusCode = 200,
+                    Body = ""
+                };
+            });
+            task.Start();
+            return task;
         }
     }
 }

@@ -76,9 +76,9 @@ namespace MC.Insurance.ApplicationServices
 			return await InsuranceServiceResponse.CreateCustomerInsurance(customerInsurance);
 		}
 
-		public Task<ExternalResponse> DeleteCustomerInsurance(int customerInsuranceId, int insuranceId)
+		public async Task<ExternalResponse> DeleteCustomerInsurance(string document, int insuranceId)
 		{
-			throw new NotImplementedException();
+			return await InsuranceServiceResponse.DeleteCustomerInsurance(document, insuranceId);
 		}
 	}
 }

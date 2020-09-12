@@ -17,6 +17,6 @@ namespace MC.Insurance.Interfaces.Infrastructure
         IEnumerable GetCustomers();
         IEnumerable GetCustomerByID(string document);
         void InsertCustomerInsurance(DTO.CustomerInsurance customerInsurance);
-        void DeleteCustomerInsurance(int customerInsuranceId);
+        void DeleteCustomerInsurance(string document, int insuranceId);
     }
 }

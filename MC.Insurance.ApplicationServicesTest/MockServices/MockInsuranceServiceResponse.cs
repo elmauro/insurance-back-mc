@@ -101,9 +101,14 @@ namespace MC.Insurance.ApplicationServicesTest.MockServices
             };
         }
 
-        public Task<ExternalResponse> DeleteCustomerInsurance(int customerInsuranceId, int insuranceId)
+        public async Task<ExternalResponse> DeleteCustomerInsurance(string document, int insuranceId)
         {
-            throw new NotImplementedException();
+            return new ExternalResponse
+            {
+                IsSuccessStatusCode = true,
+                StatusCode = 200,
+                Body = ""
+            };
         }
     }
 }

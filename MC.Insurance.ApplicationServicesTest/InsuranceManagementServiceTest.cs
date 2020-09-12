@@ -90,7 +90,7 @@ namespace MC.Insurance.ApplicationServicesTest
 		}
 
 		[Test]
-		public async Task CreateInsurances()
+		public async Task CreateInsurance()
 		{
 			var json = JsonConvert.SerializeObject(insurance);
 
@@ -136,13 +136,27 @@ namespace MC.Insurance.ApplicationServicesTest
 		}
 
 		[Test]
-		public async Task CreateCustomerInsurances()
+		public async Task CreateCustomerInsurance()
 		{
 			string document = "98632674";
 			var json = JsonConvert.SerializeObject(customerInsurance);
 
 			ExternalResponse httpResponse = await insuranceManagementService.CreateCustomerInsurance(document, json);
 			Assert.AreEqual(201, httpResponse.StatusCode);
+		}
+
+		[Test]
+		public async Task DeleteCustomerInsurance()
+		{
+			string document = "98632674";
+			int insuranceId = 1;
+
+			ExternalResponse httpResponse = await insuranceManagementService.DeleteCustomerInsurance(document, insuranceId);
+			var result = httpResponse.Body;
+
+			JObject jObject = JsonConvert.DeserializeObject<JObject>(result);
+
+			Assert.AreEqual(null, jObject);
 		}
 	}
 }
