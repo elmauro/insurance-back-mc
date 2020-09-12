@@ -2,6 +2,8 @@
 # My script
 #Windows 10 PCO Release Server
 
+cd MC.Insurance
+
 IMAGEID=$(docker images --format {{.ID}} insurance-back-mc);
 CONTAINERS=$(docker ps -aq --filter="ancestor=$IMAGEID");
 if [ ! -z "$CONTAINERS" ]; then docker stop $CONTAINERS; docker rm -f $CONTAINERS; fi;

@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="MC.Insurance.DTO">
+      <HintPath>..\MC.Insurance.DTO\bin\Debug\netcoreapp3.1\MC.Insurance.DTO.dll</HintPath>
+    </Reference>
+    <Reference Include="MC.Insurance.Interfaces.Domain">
+      <HintPath>..\MC.Insurance.Interfaces.Domain\bin\Debug\netcoreapp3.1\MC.Insurance.Interfaces.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="MC.Insurance.Interfaces.Infrastructure">
+      <HintPath>..\MC.Insurance.Interfaces.Infrastructure\bin\Debug\netcoreapp3.1\MC.Insurance.Interfaces.Infrastructure.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

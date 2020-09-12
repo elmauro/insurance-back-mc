@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="MC.Insurance.DTO">
+      <HintPath>..\MC.Insurance.DTO\bin\Debug\netcoreapp3.1\MC.Insurance.DTO.dll</HintPath>
+    </Reference>
+    <Reference Include="MC.Insurance.Infrastructure">
+      <HintPath>..\MC.Insurance.Infrastructure\bin\Debug\netcoreapp3.1\MC.Insurance.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="MC.Insurance.Interfaces.Application">
+      <HintPath>..\MC.Insurance.Interfaces.Application\bin\Debug\netcoreapp3.1\MC.Insurance.Interfaces.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="MC.Insurance.Interfaces.Domain">
+      <HintPath>..\MC.Insurance.Interfaces.Domain\bin\Debug\netcoreapp3.1\MC.Insurance.Interfaces.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="MC.Insurance.Interfaces.Infrastructure">
+      <HintPath>..\MC.Insurance.Interfaces.Infrastructure\bin\Debug\netcoreapp3.1\MC.Insurance.Interfaces.Infrastructure.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
