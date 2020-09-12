@@ -21,6 +21,7 @@ namespace MC.Insurance.ApplicationServicesTest
 	{
 		IInsuranceManagementService insuranceManagementService;
 		DTO.Insurance insurance;
+		DTO.CustomerInsurance customerInsurance;
 
 		[SetUp]
 		public void Init()
@@ -40,6 +41,22 @@ namespace MC.Insurance.ApplicationServicesTest
 
 			insurance = new DTO.Insurance
 			{
+				insuranceId = 1,
+				name = "Incendios A1",
+				description = "Seguro de Incendios",
+				type = 2,
+				coverage = "50%",
+				start = new DateTime(2000, 9, 11),
+				period = 12,
+				price = 200000,
+				risk = 4
+			};
+
+			customerInsurance = new DTO.CustomerInsurance
+			{
+				customerInsuranceId = 1,
+				document = "98632674",
+				customerName = "Mauricio Cadavid",
 				insuranceId = 1,
 				name = "Incendios A1",
 				description = "Seguro de Incendios",
@@ -105,6 +122,27 @@ namespace MC.Insurance.ApplicationServicesTest
 			JObject jObject = JsonConvert.DeserializeObject<JObject>(result);
 
 			Assert.AreEqual(null, jObject);
+		}
+
+		[Test]
+		public async Task GetCustomer()
+		{
+			string document = "98632674";
+
+			ExternalResponse me = await insuranceManagementService.GetCustomer(document);
+			CustomerInsuranceResponse obj = JsonConvert.DeserializeObject<CustomerInsuranceResponse>(me.Body);
+
+			Assert.AreEqual(2, obj.CustomerInsurance.Count);
+		}
+
+		[Test]
+		public async Task CreateCustomerInsurances()
+		{
+			string document = "98632674";
+			var json = JsonConvert.SerializeObject(customerInsurance);
+
+			ExternalResponse httpResponse = await insuranceManagementService.CreateCustomerInsurance(document, json);
+			Assert.AreEqual(201, httpResponse.StatusCode);
 		}
 	}
 }

@@ -11,5 +11,6 @@ namespace MC.Insurance.Infrastructure
         : base(options)
         { }
         public DbSet<DTO.Insurance> Insurances { get; set; }
+        public DbSet<DTO.CustomerInsurance> CustomerInsurances { get; set; }
     }
 }

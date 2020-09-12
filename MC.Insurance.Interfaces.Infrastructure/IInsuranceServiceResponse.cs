@@ -11,5 +11,10 @@ namespace MC.Insurance.Interfaces.Infrastructure
 		Task<ExternalResponse> CreateInsurance(DTO.Insurance insurance);
 		Task<ExternalResponse> UpdateInsurance(DTO.Insurance insurance);
 		Task<ExternalResponse> DeleteInsurance(int insuranceId);
+
+		Task<ExternalResponse> GetCustomerInsurances(string document);
+		Task<ExternalResponse> GetCustomers();
+		Task<ExternalResponse> CreateCustomerInsurance(DTO.CustomerInsurance customerInsurance);
+		Task<ExternalResponse> DeleteCustomerInsurance(int customerInsuranceId, int insuranceId);
 	}
 }

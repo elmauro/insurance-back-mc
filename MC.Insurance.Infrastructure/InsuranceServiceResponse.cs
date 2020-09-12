@@ -104,5 +104,55 @@ namespace MC.Insurance.Infrastructure
             task.Start();
             return task;
         }
+
+        public Task<ExternalResponse> GetCustomerInsurances(string document)
+        {
+            var response = InsuranceRepository.GetCustomerByID(document);
+
+            Task<ExternalResponse> task = new Task<ExternalResponse>(() =>
+            {
+                return new ExternalResponse
+                {
+                    IsSuccessStatusCode = true,
+                    StatusCode = 200,
+                    Body = JsonConvert.SerializeObject(response)
+                };
+            });
+            task.Start();
+            return task;
+        }
+
+        public Task<ExternalResponse> GetCustomers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ExternalResponse> GetCustomerInsurances(CustomerInsurance customerInsurance)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ExternalResponse> CreateCustomerInsurance(CustomerInsurance customerInsurance)
+        {
+            InsuranceRepository.InsertCustomerInsurance(customerInsurance);
+            InsuranceRepository.Save();
+
+            Task<ExternalResponse> task = new Task<ExternalResponse>(() =>
+            {
+                return new ExternalResponse
+                {
+                    IsSuccessStatusCode = true,
+                    StatusCode = 201,
+                    Body = ""
+                };
+            });
+            task.Start();
+            return task;
+        }
+
+        public Task<ExternalResponse> DeleteCustomerInsurance(int customerInsuranceId, int insuranceId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

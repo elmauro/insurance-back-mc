@@ -66,5 +66,26 @@ namespace MC.Insurance.Infrastructure
 
 			DataContext.Entry(_insurance).State = EntityState.Modified;
 		}
+
+		public IEnumerable GetCustomers()
+		{
+			throw new NotImplementedException();
+		}
+
+		public IEnumerable GetCustomerByID(string document)
+		{
+			return DataContext.CustomerInsurances.Where(c => c.document == document);
+		}
+
+		public void InsertCustomerInsurance(DTO.CustomerInsurance customerInsurance)
+		{
+			DataContext.CustomerInsurances.Add(customerInsurance);
+		}
+
+		public void DeleteCustomerInsurance(int customerInsuranceId)
+		{
+			DTO.CustomerInsurance customerInsurance = DataContext.CustomerInsurances.Find(customerInsuranceId);
+			DataContext.CustomerInsurances.Remove(customerInsurance);
+		}
 	}
 }

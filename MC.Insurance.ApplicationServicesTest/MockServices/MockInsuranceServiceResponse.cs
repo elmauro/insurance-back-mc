@@ -75,5 +75,35 @@ namespace MC.Insurance.ApplicationServicesTest.MockServices
                 Body = ""
             };
         }
+
+        public async Task<ExternalResponse> GetCustomerInsurances(string document)
+        {
+            return new ExternalResponse
+            {
+                IsSuccessStatusCode = true,
+                StatusCode = 200,
+                Body = MockInsurance.GetCustomer()
+            };
+        }
+
+        public Task<ExternalResponse> GetCustomers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ExternalResponse> CreateCustomerInsurance(CustomerInsurance customerInsurance)
+        {
+            return new ExternalResponse
+            {
+                IsSuccessStatusCode = true,
+                StatusCode = 201,
+                Body = ""
+            };
+        }
+
+        public Task<ExternalResponse> DeleteCustomerInsurance(int customerInsuranceId, int insuranceId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

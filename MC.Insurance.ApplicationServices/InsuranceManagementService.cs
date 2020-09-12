@@ -57,5 +57,28 @@ namespace MC.Insurance.ApplicationServices
 		{
 			return await InsuranceServiceResponse.DeleteInsurance(insuranceId);
 		}
+
+		public async Task<ExternalResponse> GetCustomer(string document)
+		{
+			ExternalResponse httpResponse = await InsuranceServiceResponse.GetCustomerInsurances(document);
+			return InsuranceFormatInputOutput.GetCustomerFormatted(httpResponse);
+		}
+
+		public Task<ExternalResponse> GetCustomers()
+		{
+			throw new NotImplementedException();
+		}
+
+		public async Task<ExternalResponse> CreateCustomerInsurance(string document, object content)
+		{
+			DTO.CustomerInsurance customerInsurance = Serializer.DeserializeObject<DTO.CustomerInsurance>(content.ToString());
+			customerInsurance = InsuranceDomain.UpdateValues(document, customerInsurance);
+			return await InsuranceServiceResponse.CreateCustomerInsurance(customerInsurance);
+		}
+
+		public Task<ExternalResponse> DeleteCustomerInsurance(int customerInsuranceId, int insuranceId)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

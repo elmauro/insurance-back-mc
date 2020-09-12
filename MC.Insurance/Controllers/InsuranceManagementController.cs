@@ -165,5 +165,63 @@ namespace insurance_back_mc.Controllers
                 return await CreateErrorMessageForException(ex);
             }
         }
+
+        [HttpGet]
+        [Route("/customer/{document}")]
+        public async Task<IActionResult> getCustomer([FromRoute] string document)
+        {
+            try
+            {
+                ExternalResponse httpResponse = await insuranceManagementService.GetCustomer(document);
+
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    CustomerInsuranceResponse customer = JsonConvert.DeserializeObject<CustomerInsuranceResponse>(httpResponse.Body);
+
+                    return await CreateResponseWithCode(customer.CustomerInsurance, (HttpStatusCode)httpResponse.StatusCode);
+                }
+                else
+                {
+                    var result = httpResponse.Body;
+                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
+
+                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                return await CreateErrorMessageForException(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("/customers/{document}/insurances")]
+        public async Task<IActionResult> CreateCustomerInsurance([FromRoute]string document, [FromBody] object content)
+        {
+            try
+            {
+                ExternalResponse httpResponse = await insuranceManagementService.CreateCustomerInsurance(document, content);
+
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var result = httpResponse.Body;
+                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
+
+                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                }
+                else
+                {
+                    var result = httpResponse.Body;
+                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
+
+                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return await CreateErrorMessageForException(ex);
+            }
+        }
     }
 }

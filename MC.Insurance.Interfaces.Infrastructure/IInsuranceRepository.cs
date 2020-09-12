@@ -13,5 +13,10 @@ namespace MC.Insurance.Interfaces.Infrastructure
         void DeleteInsurance(int insuranceId);
         void UpdateInsurance(DTO.Insurance insurance);
         void Save();
+
+        IEnumerable GetCustomers();
+        IEnumerable GetCustomerByID(string document);
+        void InsertCustomerInsurance(DTO.CustomerInsurance customerInsurance);
+        void DeleteCustomerInsurance(int customerInsuranceId);
     }
 }

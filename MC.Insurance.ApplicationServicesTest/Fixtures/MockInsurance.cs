@@ -60,6 +60,40 @@ namespace MC.Insurance.ApplicationServicesTest.Fixtures
 			]
 		";
 
+		public static string CustomerData =>
+		@"
+			[
+				{
+					'customerInsuranceId': 1,
+					'document': '98632674',
+					'name': 'Mauricio Cadavid',
+					'insuranceId': 1,
+					'name': 'Incendios A1',
+					'description': 'Seguro de Incendios',
+					'type': 2,
+					'coverage': '50%',
+					'start': '09/11/2020',
+					'period': 12,
+					'price': 200000,
+					'risk': 4
+				},
+				{
+					'customerInsuranceId': 1,
+					'document': '98632674',
+					'customerName': 'Mauricio Cadavid',
+					'insuranceId': 2,
+					'name': 'Incendios A2',
+					'description': 'Seguro de Incendios',
+					'type': 2,
+					'coverage': '50%',
+					'start': '09/11/2020',
+					'period': 12,
+					'price': 200000,
+					'risk': 4
+				}
+			]
+		";
+
 		public static string GetInsurance() {
 			return InsuranceData;
 		}
@@ -67,6 +101,10 @@ namespace MC.Insurance.ApplicationServicesTest.Fixtures
 		public static string GetInsurances()
 		{
 			return InsurancesData;
+		}
+
+		public static string GetCustomer() {
+			return CustomerData;
 		}
 	}
 }

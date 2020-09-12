@@ -14,5 +14,7 @@ namespace MC.Insurance.Interfaces.Application
 
 		ExternalResponse GetInsuranceFormatted(ExternalResponse result);
 		ExternalResponse GetInsurancesFormatted(ExternalResponse result);
+
+		ExternalResponse GetCustomerFormatted(ExternalResponse result);
 	}
 }

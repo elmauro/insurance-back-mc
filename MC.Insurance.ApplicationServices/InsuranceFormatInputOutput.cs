@@ -77,5 +77,36 @@ namespace MC.Insurance.ApplicationServices
 
             return httpResponse;
         }
+
+        public ExternalResponse GetCustomerFormatted(ExternalResponse httpResponse)
+        {
+            if (httpResponse.IsSuccessStatusCode)
+            {
+                CustomerInsuranceResponse _customerInsurance = new CustomerInsuranceResponse();
+
+                var result = httpResponse.Body;
+                if (result.Length > 0)
+                {
+                    var obj = Serializer.DeserializeObject<List<DTO.CustomerInsurance>>(result);
+                    _customerInsurance.CustomerInsurance = obj;
+
+                    return new ExternalResponse
+                    {
+                        IsSuccessStatusCode = httpResponse.IsSuccessStatusCode,
+                        StatusCode = httpResponse.StatusCode,
+                        Body = JsonConvert.SerializeObject(_customerInsurance)
+                    };
+                }
+
+                return new ExternalResponse
+                {
+                    IsSuccessStatusCode = httpResponse.IsSuccessStatusCode,
+                    StatusCode = httpResponse.StatusCode,
+                    Body = JsonConvert.SerializeObject(_customerInsurance)
+                };
+            }
+
+            return httpResponse;
+        }
     }
 }
