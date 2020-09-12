@@ -12,6 +12,7 @@ using MC.Insurance.Interfaces.Infrastructure;
 using MC.Insurance.ApplicationServicesTest.MockServices;
 using MC.Insurance.ApplicationServices;
 using MC.Insurance.Interfaces.Domain;
+using Newtonsoft.Json.Linq;
 
 namespace MC.Insurance.ApplicationServicesTest
 {
@@ -78,6 +79,32 @@ namespace MC.Insurance.ApplicationServicesTest
 
 			ExternalResponse httpResponse = await insuranceManagementService.CreateInsurance(json);
 			Assert.AreEqual(201, httpResponse.StatusCode);
+		}
+
+		[Test]
+		public async Task UpdateInsurance()
+		{
+			var json = JsonConvert.SerializeObject(insurance);
+
+			ExternalResponse httpResponse = await insuranceManagementService.UpdateInsurance(json);
+			var result = httpResponse.Body;
+
+			JObject jObject = JsonConvert.DeserializeObject<JObject>(result);
+
+			Assert.AreEqual(null, jObject);
+		}
+
+		[Test]
+		public async Task DeleteInsurance()
+		{
+			int insuranceId = 1;
+
+			ExternalResponse httpResponse = await insuranceManagementService.DeleteInsurance(insuranceId);
+			var result = httpResponse.Body;
+
+			JObject jObject = JsonConvert.DeserializeObject<JObject>(result);
+
+			Assert.AreEqual(null, jObject);
 		}
 	}
 }

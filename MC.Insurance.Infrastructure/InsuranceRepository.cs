@@ -23,26 +23,6 @@ namespace MC.Insurance.Infrastructure
 		   .UseInMemoryDatabase(databaseName: "Insurance")
 		   .Options;
 
-			using (DataContext = new InsuranceContext(options))
-			{
-				var insurance = new DTO.Insurance
-				{
-					insuranceId = 1,
-					name =  "Incendios A1",
-					description = "Seguro de Incendios",
-					type = 2,
-					coverage = "50%",
-					start = new DateTime(2000,9,11),
-					period = 12,
-					price =  200000,
-					risk=  4
-				};
-
-				DataContext.Insurances.Add(insurance);
-				DataContext.SaveChanges();
-
-			}
-
 
 			DataContext = new InsuranceContext(options);
 		}
@@ -74,7 +54,17 @@ namespace MC.Insurance.Infrastructure
 
 		public void UpdateInsurance(DTO.Insurance insurance)
 		{
-			DataContext.Entry(insurance).State = EntityState.Modified;
+			DTO.Insurance _insurance = DataContext.Insurances.Find(insurance.insuranceId);
+			_insurance.name = insurance.name;
+			_insurance.description = insurance.description;
+			_insurance.type = insurance.type;
+			_insurance.coverage = insurance.coverage;
+			_insurance.start = insurance.start;
+			_insurance.period = insurance.period;
+			_insurance.price = insurance.price;
+			_insurance.risk = insurance.risk;
+
+			DataContext.Entry(_insurance).State = EntityState.Modified;
 		}
 	}
 }

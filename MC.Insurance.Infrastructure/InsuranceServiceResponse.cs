@@ -53,7 +53,8 @@ namespace MC.Insurance.Infrastructure
 
         public Task<ExternalResponse> CreateInsurance(DTO.Insurance insurance)
         {
-           InsuranceRepository.InsertInsurance(insurance);
+            InsuranceRepository.InsertInsurance(insurance);
+            InsuranceRepository.Save();
 
             Task<ExternalResponse> task = new Task<ExternalResponse>(() =>
             {
@@ -70,12 +71,38 @@ namespace MC.Insurance.Infrastructure
 
         public Task<ExternalResponse> UpdateInsurance(DTO.Insurance insurance)
         {
-            throw new NotImplementedException();
+            InsuranceRepository.UpdateInsurance(insurance);
+            InsuranceRepository.Save();
+
+            Task<ExternalResponse> task = new Task<ExternalResponse>(() =>
+            {
+                return new ExternalResponse
+                {
+                    IsSuccessStatusCode = true,
+                    StatusCode = 204,
+                    Body = ""
+                };
+            });
+            task.Start();
+            return task;
         }
 
         public Task<ExternalResponse> DeleteInsurance(int insuranceId)
         {
-            throw new NotImplementedException();
+            InsuranceRepository.DeleteInsurance(insuranceId);
+            InsuranceRepository.Save();
+
+            Task<ExternalResponse> task = new Task<ExternalResponse>(() =>
+            {
+                return new ExternalResponse
+                {
+                    IsSuccessStatusCode = true,
+                    StatusCode = 200,
+                    Body = ""
+                };
+            });
+            task.Start();
+            return task;
         }
     }
 }

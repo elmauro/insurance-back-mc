@@ -46,14 +46,16 @@ namespace MC.Insurance.ApplicationServices
 			return await InsuranceServiceResponse.CreateInsurance(insurance);
 		}
 
-		public async Task<ExternalResponse> UpdateInsurance(object insurance)
+		public async Task<ExternalResponse> UpdateInsurance(object content)
 		{
-			throw new NotImplementedException();
+			DTO.Insurance insurance = Serializer.DeserializeObject<DTO.Insurance>(content.ToString());
+			insurance = InsuranceDomain.AsignCoverage(insurance);
+			return await InsuranceServiceResponse.UpdateInsurance(insurance);
 		}
 
 		public async Task<ExternalResponse> DeleteInsurance(int insuranceId)
 		{
-			throw new NotImplementedException();
+			return await InsuranceServiceResponse.DeleteInsurance(insuranceId);
 		}
 	}
 }

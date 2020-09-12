@@ -78,7 +78,7 @@ namespace insurance_back_mc.Controllers
 
         [HttpPost]
         [Route("insurances")]
-        public async Task<IActionResult> CreateAccount([FromBody] object content)
+        public async Task<IActionResult> CreateInsurance([FromBody] object content)
         {
             try
             {
@@ -86,8 +86,66 @@ namespace insurance_back_mc.Controllers
 
                 if (httpResponse.IsSuccessStatusCode)
                 {
-                    Insurance insurance = JsonConvert.DeserializeObject<Insurance>(content.ToString());
+                    var result = httpResponse.Body;
+                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
+                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                }
+                else
+                {
+                    var result = httpResponse.Body;
+                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
+
+                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return await CreateErrorMessageForException(ex);
+            }
+        }
+
+        [HttpPut]
+        [Route("insurances")]
+        public async Task<IActionResult> UpdateInsurance([FromBody] object content)
+        {
+            try
+            {
+                ExternalResponse httpResponse = await insuranceManagementService.UpdateInsurance(content);
+
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    var result = httpResponse.Body;
+                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
+
+                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                }
+                else
+                {
+                    var result = httpResponse.Body;
+                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
+
+                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return await CreateErrorMessageForException(ex);
+            }
+        }
+
+        [HttpDelete]
+        [Route("insurances/{insuranceId}")]
+        public async Task<IActionResult> DeleteInsurance([FromRoute] int insuranceId)
+        {
+            try
+            {
+                ExternalResponse httpResponse = await insuranceManagementService.DeleteInsurance(insuranceId);
+
+                if (httpResponse.IsSuccessStatusCode)
+                {
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 

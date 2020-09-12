@@ -10,8 +10,12 @@ namespace MC.Insurance.Domain
 
 		public DTO.Insurance AsignCoverage(DTO.Insurance add)
 		{
-			if (add.risk == 4) {
+			if (add.risk == 4)
+			{
 				add.coverage = "50%";
+			}
+			else {
+				add.coverage = "100%";
 			}
 
 			return add;
