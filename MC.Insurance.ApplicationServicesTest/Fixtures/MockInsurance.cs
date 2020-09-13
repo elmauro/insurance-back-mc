@@ -60,13 +60,13 @@ namespace MC.Insurance.ApplicationServicesTest.Fixtures
 			]
 		";
 
-		public static string CustomerData =>
+		public static string CustomerInsurencesData =>
 		@"
 			[
 				{
 					'customerInsuranceId': 1,
 					'document': '98632674',
-					'name': 'Mauricio Cadavid',
+					'customerName': 'Mauricio Cadavid',
 					'insuranceId': 1,
 					'name': 'Incendios A1',
 					'description': 'Seguro de Incendios',
@@ -103,8 +103,8 @@ namespace MC.Insurance.ApplicationServicesTest.Fixtures
 			return InsurancesData;
 		}
 
-		public static string GetCustomer() {
-			return CustomerData;
+		public static string GetCustomerInsurances() {
+			return CustomerInsurencesData;
 		}
 	}
 }

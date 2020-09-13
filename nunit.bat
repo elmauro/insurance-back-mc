@@ -1,0 +1,1 @@
+dotnet test MC.Insurance.ApplicationServicesTest/MC.Insurance.ApplicationServicesTest.csproj

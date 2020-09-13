@@ -82,7 +82,7 @@ namespace MC.Insurance.ApplicationServicesTest.MockServices
             {
                 IsSuccessStatusCode = true,
                 StatusCode = 200,
-                Body = MockInsurance.GetCustomer()
+                Body = MockInsurance.GetCustomerInsurances()
             };
         }
 

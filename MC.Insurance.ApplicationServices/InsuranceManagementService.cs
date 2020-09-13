@@ -46,9 +46,10 @@ namespace MC.Insurance.ApplicationServices
 			return await InsuranceServiceResponse.CreateInsurance(insurance);
 		}
 
-		public async Task<ExternalResponse> UpdateInsurance(object content)
+		public async Task<ExternalResponse> UpdateInsurance(int insuranceId, object content)
 		{
 			DTO.Insurance insurance = Serializer.DeserializeObject<DTO.Insurance>(content.ToString());
+			insurance = InsuranceDomain.UpdateInsuraceId(insuranceId, insurance);
 			insurance = InsuranceDomain.AsignCoverage(insurance);
 			return await InsuranceServiceResponse.UpdateInsurance(insurance);
 		}
@@ -58,15 +59,15 @@ namespace MC.Insurance.ApplicationServices
 			return await InsuranceServiceResponse.DeleteInsurance(insuranceId);
 		}
 
-		public async Task<ExternalResponse> GetCustomer(string document)
+		public async Task<ExternalResponse> GetCustomerInsurances(string document)
 		{
 			ExternalResponse httpResponse = await InsuranceServiceResponse.GetCustomerInsurances(document);
 			return InsuranceFormatInputOutput.GetCustomerFormatted(httpResponse);
 		}
 
-		public Task<ExternalResponse> GetCustomers()
+		public async Task<ExternalResponse> GetCustomers()
 		{
-			throw new NotImplementedException();
+			return InsuranceFormatInputOutput.GetDefaultCustomersFormatted();
 		}
 
 		public async Task<ExternalResponse> CreateCustomerInsurance(string document, object content)

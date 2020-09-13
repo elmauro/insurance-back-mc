@@ -9,8 +9,7 @@ To working with Insurance Methods
 1. Angular CLI: 9.1.12
 2. Node: 12.16.1
 3. docker installed
-4. Existing Users simulated with a method into MC.Insurance.Back.API
-5. NUnit Console and Engine 3.11.1 Installed
+4. Existing Users simulated with a method into MC.Insurance.Back.API "/customers"
 
 
 ## Instalation
@@ -39,6 +38,18 @@ b. Install with Docker (assuming docker installed on current machine)
 ## API Application Working
 
 You can see the API application working on http://mcinsurancebackapi-env.eba-tvwzp2rf.us-east-1.elasticbeanstalk.com/weatherforecast
+
+## Postman Collection
+
+https://www.getpostman.com/collections/97f17a30683e951f6a41
+
+Insurance
+
+	POST: 	/insurances/
+	GET: 	/insurances/
+	GET:	/insurances/{insuranceId}
+	PUT:	/insurances/{insuranceId}
+	DELETE:	/insurances/{insuranceId}
 
   
 ## Future Work

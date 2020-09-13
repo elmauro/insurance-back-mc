@@ -22,6 +22,12 @@ namespace MC.Insurance.Domain
 			return add;
 		}
 
+		public DTO.Insurance UpdateInsuraceId(int insuranceId, DTO.Insurance add)
+		{
+			add.insuranceId = insuranceId;
+			return add;
+		}
+
 		public CustomerInsurance UpdateValues(string document, CustomerInsurance add)
 		{
 			add.document = document;

@@ -101,9 +101,10 @@ namespace MC.Insurance.ApplicationServicesTest
 		[Test]
 		public async Task UpdateInsurance()
 		{
+			int insuranceId = 1;
 			var json = JsonConvert.SerializeObject(insurance);
 
-			ExternalResponse httpResponse = await insuranceManagementService.UpdateInsurance(json);
+			ExternalResponse httpResponse = await insuranceManagementService.UpdateInsurance(insuranceId, json);
 			var result = httpResponse.Body;
 
 			JObject jObject = JsonConvert.DeserializeObject<JObject>(result);
@@ -125,11 +126,11 @@ namespace MC.Insurance.ApplicationServicesTest
 		}
 
 		[Test]
-		public async Task GetCustomer()
+		public async Task GetCustomerInsurances()
 		{
 			string document = "98632674";
 
-			ExternalResponse me = await insuranceManagementService.GetCustomer(document);
+			ExternalResponse me = await insuranceManagementService.GetCustomerInsurances(document);
 			CustomerInsuranceResponse obj = JsonConvert.DeserializeObject<CustomerInsuranceResponse>(me.Body);
 
 			Assert.AreEqual(2, obj.CustomerInsurance.Count);
@@ -157,6 +158,15 @@ namespace MC.Insurance.ApplicationServicesTest
 			JObject jObject = JsonConvert.DeserializeObject<JObject>(result);
 
 			Assert.AreEqual(null, jObject);
+		}
+
+		[Test]
+		public async Task GetCustomers()
+		{
+			ExternalResponse customers = await insuranceManagementService.GetCustomers();
+			var obj = JsonConvert.DeserializeObject<dynamic>(customers.Body);
+
+			Assert.AreEqual(3, obj.Count);
 		}
 	}
 }

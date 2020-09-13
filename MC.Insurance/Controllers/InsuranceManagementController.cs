@@ -77,7 +77,7 @@ namespace insurance_back_mc.Controllers
         }
 
         [HttpPost]
-        [Route("insurances")]
+        [Route("/insurances")]
         public async Task<IActionResult> CreateInsurance([FromBody] object content)
         {
             try
@@ -107,12 +107,12 @@ namespace insurance_back_mc.Controllers
         }
 
         [HttpPut]
-        [Route("insurances")]
-        public async Task<IActionResult> UpdateInsurance([FromBody] object content)
+        [Route("/insurances/{insuranceId}")]
+        public async Task<IActionResult> UpdateInsurance([FromRoute] int insuranceId, [FromBody] object content)
         {
             try
             {
-                ExternalResponse httpResponse = await insuranceManagementService.UpdateInsurance(content);
+                ExternalResponse httpResponse = await insuranceManagementService.UpdateInsurance(insuranceId, content);
 
                 if (httpResponse.IsSuccessStatusCode)
                 {
@@ -167,18 +167,46 @@ namespace insurance_back_mc.Controllers
         }
 
         [HttpGet]
-        [Route("/customer/{document}")]
+        [Route("/customers/{document}/insurances")]
         public async Task<IActionResult> getCustomer([FromRoute] string document)
         {
             try
             {
-                ExternalResponse httpResponse = await insuranceManagementService.GetCustomer(document);
+                ExternalResponse httpResponse = await insuranceManagementService.GetCustomerInsurances(document);
 
                 if (httpResponse.IsSuccessStatusCode)
                 {
                     CustomerInsuranceResponse customer = JsonConvert.DeserializeObject<CustomerInsuranceResponse>(httpResponse.Body);
 
                     return await CreateResponseWithCode(customer.CustomerInsurance, (HttpStatusCode)httpResponse.StatusCode);
+                }
+                else
+                {
+                    var result = httpResponse.Body;
+                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
+
+                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                }
+            }
+            catch (Exception ex)
+            {
+                return await CreateErrorMessageForException(ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("/customers")]
+        public async Task<IActionResult> getCustomers([FromRoute] string document)
+        {
+            try
+            {
+                ExternalResponse httpResponse = await insuranceManagementService.GetCustomers();
+
+                if (httpResponse.IsSuccessStatusCode)
+                {
+                    CustomerResponses customers = JsonConvert.DeserializeObject<CustomerResponses>(httpResponse.Body);
+
+                    return await CreateResponseWithCode(customers.Customers, (HttpStatusCode)httpResponse.StatusCode);
                 }
                 else
                 {

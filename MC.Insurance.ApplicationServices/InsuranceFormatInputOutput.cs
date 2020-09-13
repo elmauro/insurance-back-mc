@@ -108,5 +108,41 @@ namespace MC.Insurance.ApplicationServices
 
             return httpResponse;
         }
+
+        public ExternalResponse GetDefaultCustomersFormatted()
+        {
+            CustomerResponses response = new CustomerResponses();
+            response.Customers = new List<Customer>();
+
+            response.Customers.Add(
+                new Customer { 
+                    document = "98632674",
+                    name = "Mauricio Cadavid"
+                }
+            );
+
+            response.Customers.Add(
+                new Customer
+                {
+                    document = "8288221",
+                    name = "Hernan Cadavid"
+                }
+            );
+
+            response.Customers.Add(
+                new Customer
+                {
+                    document = "43160724",
+                    name = "Maribel Gonzalez"
+                }
+            );
+
+            return new ExternalResponse
+            {
+                IsSuccessStatusCode = true,
+                StatusCode = 200,
+                Body = JsonConvert.SerializeObject(response)
+            };
+        }
     }
 }
