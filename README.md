@@ -45,15 +45,23 @@ https://www.getpostman.com/collections/97f17a30683e951f6a41
 
 Insurance
 
-	POST: 	/insurances/
-	GET: 	/insurances/
+	POST: 	/insurances
+	GET: 	/insurances
 	GET:	/insurances/{insuranceId}
 	PUT:	/insurances/{insuranceId}
 	DELETE:	/insurances/{insuranceId}
+	
+Customer Insurances
+
+	GET:	/customers
+	POST:	/customers/{document}/insurances
+	GET:	/customers/{document}/insurances
+	DELETE:	/customers/{document}/insurances/{insuranceId}
 
   
 ## Future Work
 
 1. Code Coverage
+2. Security
 
 
