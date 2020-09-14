@@ -10,6 +10,7 @@ To working with Insurance Methods
 2. Node: 12.16.1
 3. docker installed
 4. Existing Users simulated with a method into MC.Insurance.Back.API "/customers"
+5. DataBase in Memory with Microsoft.EntityFrameworkCore.InMemory
 
 
 ## Instalation

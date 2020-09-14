@@ -12,6 +12,8 @@ namespace MC.Insurance.Infrastructure
 	public class InsuranceRepository : IInsuranceRepository
 	{
 		InsuranceContext DataContext;
+		static int insuranceId=0;
+
 		public InsuranceRepository() 
 		{
 			IniciarDataContext();
@@ -44,6 +46,8 @@ namespace MC.Insurance.Infrastructure
 
 		public void InsertInsurance(DTO.Insurance insurance)
 		{
+			insuranceId++;
+			insurance.insuranceId = insuranceId;
 			DataContext.Insurances.Add(insurance);
 		}
 
