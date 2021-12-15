@@ -1,6 +1,7 @@
 ﻿using MC.Insurance.DTO;
 using MC.Insurance.Interfaces.Application;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -12,12 +13,16 @@ namespace insurance_back_mc.Controllers
 {
     public class InsuranceManagementController : CommonController
 	{
-		IInsuranceManagementService insuranceManagementService { get; set; }
+        private readonly ILogger<InsuranceManagementController> _logger;
+
+        IInsuranceManagementService insuranceManagementService { get; set; }
 
         public InsuranceManagementController(
+            ILogger<InsuranceManagementController> logger,
             IInsuranceManagementService insuranceManagementService
         )
         {
+            _logger = logger;
             this.insuranceManagementService = insuranceManagementService;
         }
 
@@ -33,6 +38,7 @@ namespace insurance_back_mc.Controllers
                 {
                     Insurance insurance = JsonConvert.DeserializeObject<Insurance>(httpResponse.Body);
 
+                    _logger.LogInformation("Logging Insurance status {status} for {insurance}", httpResponse.StatusCode, httpResponse.Body);
                     return await CreateResponseWithCode(insurance, (HttpStatusCode)httpResponse.StatusCode);
                 }
                 else

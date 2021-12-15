@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -12,14 +12,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MC.Insurance.DTO\MC.Insurance.DTO.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="MC.Insurance.ApplicationServices">
       <HintPath>..\MC.Insurance.ApplicationServices\bin\Debug\netcoreapp3.1\MC.Insurance.ApplicationServices.dll</HintPath>
     </Reference>
     <Reference Include="MC.Insurance.Domain">
       <HintPath>..\MC.Insurance.Domain\bin\Debug\netcoreapp3.1\MC.Insurance.Domain.dll</HintPath>
-    </Reference>
-    <Reference Include="MC.Insurance.DTO">
-      <HintPath>..\MC.Insurance.DTO\bin\Debug\netcoreapp3.1\MC.Insurance.DTO.dll</HintPath>
     </Reference>
     <Reference Include="MC.Insurance.Infrastructure">
       <HintPath>..\MC.Insurance.Infrastructure\bin\Debug\netcoreapp3.1\MC.Insurance.Infrastructure.dll</HintPath>
