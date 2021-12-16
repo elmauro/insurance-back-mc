@@ -1,9 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29920.165
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MC.Insurance.Back.API", "MC.Insurance.Back.API.csproj", "{8615337E-1AB1-47C2-907F-860FC3463303}"
+	ProjectSection(ProjectDependencies) = postProject
+		{97EBE303-6B37-4445-962A-FEE7CE8B6FA7} = {97EBE303-6B37-4445-962A-FEE7CE8B6FA7}
+		{B59CB55C-3BB4-459F-9592-0AA9AD160A6B} = {B59CB55C-3BB4-459F-9592-0AA9AD160A6B}
+		{5D703578-511C-49FC-8595-66D2B09E1C03} = {5D703578-511C-49FC-8595-66D2B09E1C03}
+		{7E529D93-9BD9-41AA-B8A2-87E49CDA511A} = {7E529D93-9BD9-41AA-B8A2-87E49CDA511A}
+		{E25272A5-4F8D-4313-823B-A7F536F7DCD7} = {E25272A5-4F8D-4313-823B-A7F536F7DCD7}
+		{AD0410A6-C9F3-4F76-A9C6-AB0758C61CC7} = {AD0410A6-C9F3-4F76-A9C6-AB0758C61CC7}
+		{DB3BE8D7-0106-4C06-9205-0C3894E2F92C} = {DB3BE8D7-0106-4C06-9205-0C3894E2F92C}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{47C5A0BA-3317-4EEE-A8FC-F0FE30FC7A1C}"
 EndProject
@@ -15,21 +24,54 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{609D95D5-6E88-4D92-9EB1-3F6375A33BA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MC.Insurance.ApplicationServices", "..\MC.Insurance.ApplicationServices\MC.Insurance.ApplicationServices.csproj", "{B59CB55C-3BB4-459F-9592-0AA9AD160A6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MC.Insurance.ApplicationServices", "..\MC.Insurance.ApplicationServices\MC.Insurance.ApplicationServices.csproj", "{B59CB55C-3BB4-459F-9592-0AA9AD160A6B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D703578-511C-49FC-8595-66D2B09E1C03} = {5D703578-511C-49FC-8595-66D2B09E1C03}
+		{E25272A5-4F8D-4313-823B-A7F536F7DCD7} = {E25272A5-4F8D-4313-823B-A7F536F7DCD7}
+		{AD0410A6-C9F3-4F76-A9C6-AB0758C61CC7} = {AD0410A6-C9F3-4F76-A9C6-AB0758C61CC7}
+		{DB3BE8D7-0106-4C06-9205-0C3894E2F92C} = {DB3BE8D7-0106-4C06-9205-0C3894E2F92C}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MC.Insurance.DTO", "..\MC.Insurance.DTO\MC.Insurance.DTO.csproj", "{E25272A5-4F8D-4313-823B-A7F536F7DCD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MC.Insurance.DTO", "..\MC.Insurance.DTO\MC.Insurance.DTO.csproj", "{E25272A5-4F8D-4313-823B-A7F536F7DCD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MC.Insurance.Domain", "..\MC.Insurance.Domain\MC.Insurance.Domain.csproj", "{97EBE303-6B37-4445-962A-FEE7CE8B6FA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MC.Insurance.Domain", "..\MC.Insurance.Domain\MC.Insurance.Domain.csproj", "{97EBE303-6B37-4445-962A-FEE7CE8B6FA7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D703578-511C-49FC-8595-66D2B09E1C03} = {5D703578-511C-49FC-8595-66D2B09E1C03}
+		{E25272A5-4F8D-4313-823B-A7F536F7DCD7} = {E25272A5-4F8D-4313-823B-A7F536F7DCD7}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MC.Insurance.Infrastructure", "..\MC.Insurance.Infrastructure\MC.Insurance.Infrastructure.csproj", "{7E529D93-9BD9-41AA-B8A2-87E49CDA511A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MC.Insurance.Infrastructure", "..\MC.Insurance.Infrastructure\MC.Insurance.Infrastructure.csproj", "{7E529D93-9BD9-41AA-B8A2-87E49CDA511A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E25272A5-4F8D-4313-823B-A7F536F7DCD7} = {E25272A5-4F8D-4313-823B-A7F536F7DCD7}
+		{DB3BE8D7-0106-4C06-9205-0C3894E2F92C} = {DB3BE8D7-0106-4C06-9205-0C3894E2F92C}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MC.Insurance.Interfaces.Application", "..\MC.Insurance.Interfaces.Application\MC.Insurance.Interfaces.Application.csproj", "{AD0410A6-C9F3-4F76-A9C6-AB0758C61CC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MC.Insurance.Interfaces.Application", "..\MC.Insurance.Interfaces.Application\MC.Insurance.Interfaces.Application.csproj", "{AD0410A6-C9F3-4F76-A9C6-AB0758C61CC7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5D703578-511C-49FC-8595-66D2B09E1C03} = {5D703578-511C-49FC-8595-66D2B09E1C03}
+		{E25272A5-4F8D-4313-823B-A7F536F7DCD7} = {E25272A5-4F8D-4313-823B-A7F536F7DCD7}
+		{DB3BE8D7-0106-4C06-9205-0C3894E2F92C} = {DB3BE8D7-0106-4C06-9205-0C3894E2F92C}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MC.Insurance.Interfaces.Domain", "..\MC.Insurance.Interfaces.Domain\MC.Insurance.Interfaces.Domain.csproj", "{5D703578-511C-49FC-8595-66D2B09E1C03}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MC.Insurance.Interfaces.Domain", "..\MC.Insurance.Interfaces.Domain\MC.Insurance.Interfaces.Domain.csproj", "{5D703578-511C-49FC-8595-66D2B09E1C03}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E25272A5-4F8D-4313-823B-A7F536F7DCD7} = {E25272A5-4F8D-4313-823B-A7F536F7DCD7}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MC.Insurance.Interfaces.Infrastructure", "..\MC.Insurance.Interfaces.Infrastructure\MC.Insurance.Interfaces.Infrastructure.csproj", "{DB3BE8D7-0106-4C06-9205-0C3894E2F92C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MC.Insurance.Interfaces.Infrastructure", "..\MC.Insurance.Interfaces.Infrastructure\MC.Insurance.Interfaces.Infrastructure.csproj", "{DB3BE8D7-0106-4C06-9205-0C3894E2F92C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E25272A5-4F8D-4313-823B-A7F536F7DCD7} = {E25272A5-4F8D-4313-823B-A7F536F7DCD7}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MC.Insurance.ApplicationServicesTest", "..\MC.Insurance.ApplicationServicesTest\MC.Insurance.ApplicationServicesTest.csproj", "{86EB00C1-521F-440B-9919-FC94FCF04EC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MC.Insurance.ApplicationServicesTest", "..\MC.Insurance.ApplicationServicesTest\MC.Insurance.ApplicationServicesTest.csproj", "{86EB00C1-521F-440B-9919-FC94FCF04EC3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{97EBE303-6B37-4445-962A-FEE7CE8B6FA7} = {97EBE303-6B37-4445-962A-FEE7CE8B6FA7}
+		{B59CB55C-3BB4-459F-9592-0AA9AD160A6B} = {B59CB55C-3BB4-459F-9592-0AA9AD160A6B}
+		{5D703578-511C-49FC-8595-66D2B09E1C03} = {5D703578-511C-49FC-8595-66D2B09E1C03}
+		{7E529D93-9BD9-41AA-B8A2-87E49CDA511A} = {7E529D93-9BD9-41AA-B8A2-87E49CDA511A}
+		{AD0410A6-C9F3-4F76-A9C6-AB0758C61CC7} = {AD0410A6-C9F3-4F76-A9C6-AB0758C61CC7}
+		{DB3BE8D7-0106-4C06-9205-0C3894E2F92C} = {DB3BE8D7-0106-4C06-9205-0C3894E2F92C}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

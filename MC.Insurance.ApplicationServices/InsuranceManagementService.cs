@@ -1,5 +1,4 @@
 ﻿using MC.Insurance.DTO;
-using MC.Insurance.Infrastructure;
 using MC.Insurance.Interfaces.Application;
 using MC.Insurance.Interfaces.Domain;
 using MC.Insurance.Interfaces.Infrastructure;

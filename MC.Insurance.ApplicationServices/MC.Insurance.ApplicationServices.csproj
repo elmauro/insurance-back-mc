@@ -12,9 +12,6 @@
     <Reference Include="MC.Insurance.DTO">
       <HintPath>..\MC.Insurance.DTO\bin\Debug\netcoreapp3.1\MC.Insurance.DTO.dll</HintPath>
     </Reference>
-    <Reference Include="MC.Insurance.Infrastructure">
-      <HintPath>..\MC.Insurance.Infrastructure\bin\Debug\netcoreapp3.1\MC.Insurance.Infrastructure.dll</HintPath>
-    </Reference>
     <Reference Include="MC.Insurance.Interfaces.Application">
       <HintPath>..\MC.Insurance.Interfaces.Application\bin\Debug\netcoreapp3.1\MC.Insurance.Interfaces.Application.dll</HintPath>
     </Reference>

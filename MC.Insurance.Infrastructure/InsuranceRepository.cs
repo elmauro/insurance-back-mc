@@ -21,10 +21,13 @@ namespace MC.Insurance.Infrastructure
 
 		public void IniciarDataContext()
 		{
-			var options = new DbContextOptionsBuilder<InsuranceContext>()
-		   .UseInMemoryDatabase(databaseName: "Insurance")
-		   .Options;
+			// var options = new DbContextOptionsBuilder<InsuranceContext>()
+			//.UseInMemoryDatabase(databaseName: "Insurance")
+			//.Options;
 
+			var options = new DbContextOptionsBuilder<InsuranceContext>()
+		   .UseSqlServer("Server=CO-IT024263\\SQLEXPRESS;Database=Insurance;Trusted_Connection=true;MultipleActiveResultsets=true")
+		   .Options;
 
 			DataContext = new InsuranceContext(options);
 		}

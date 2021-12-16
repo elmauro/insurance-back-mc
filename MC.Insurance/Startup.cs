@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace insurance_back_mc
 {
@@ -54,6 +55,7 @@ namespace insurance_back_mc
 			);
 
 			services.AddSingleton<IInsuranceManagementService>(insuranceManagementService);
+			services.AddDbContext<InsuranceContext>(item => item.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
