@@ -6,27 +6,28 @@ using System.Text;
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.Extensions.Options;
 
 namespace MC.Insurance.Infrastructure
 {
 	public class InsuranceRepository : IInsuranceRepository
 	{
 		InsuranceContext DataContext;
+		private IOptions<ConnectionStrings> settings;
 		static int insuranceId=0;
 
-		public InsuranceRepository() 
+		public InsuranceRepository(IOptions<ConnectionStrings> settings) 
 		{
+			this.settings = settings;
 			IniciarDataContext();
 		}
 
 		public void IniciarDataContext()
 		{
-			// var options = new DbContextOptionsBuilder<InsuranceContext>()
-			//.UseInMemoryDatabase(databaseName: "Insurance")
-			//.Options;
-
+			ConnectionStrings cn = this.settings.Value;
+			
 			var options = new DbContextOptionsBuilder<InsuranceContext>()
-		   .UseSqlServer("Server=CO-IT024263\\SQLEXPRESS;Database=Insurance;Trusted_Connection=true;MultipleActiveResultsets=true")
+		   .UseSqlServer(cn.DefaultDatabase)
 		   .Options;
 
 			DataContext = new InsuranceContext(options);

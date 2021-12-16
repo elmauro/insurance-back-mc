@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MC.Insurance.ApplicationServices;
 using MC.Insurance.Domain;
+using MC.Insurance.DTO;
 using MC.Insurance.Infrastructure;
 using MC.Insurance.Interfaces.Application;
 using MC.Insurance.Interfaces.Domain;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 namespace insurance_back_mc
 {
@@ -32,6 +34,9 @@ namespace insurance_back_mc
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
+			services.AddOptions();
+
 			services.AddCors(c =>
 			{
 				c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
@@ -39,22 +44,12 @@ namespace insurance_back_mc
 
 			services.AddControllers();
 
-			IInsuranceManagementService insuranceManagementService;
-			IInsuranceDomain InsuranceDomain = new InsuranceDomain();
-			ISerializer Serializer = new Serializer();
-			IInsuranceFormatInputOutput InsuranceFormatInputOutput = new InsuranceFormatInputOutput(InsuranceDomain, Serializer);
-			IInsuranceRepository InsuranceRepository = new InsuranceRepository();
-
-			IInsuranceServiceResponse InsuranceServiceResponse = new InsuranceServiceResponse(InsuranceRepository);
-
-			insuranceManagementService = new InsuranceManagementService(
-				InsuranceDomain,
-				InsuranceFormatInputOutput,
-				InsuranceServiceResponse,
-				Serializer
-			);
-
-			services.AddSingleton<IInsuranceManagementService>(insuranceManagementService);
+			services.AddSingleton<IInsuranceDomain, InsuranceDomain>();
+			services.AddSingleton<ISerializer, Serializer>();
+			services.AddSingleton<IInsuranceFormatInputOutput, InsuranceFormatInputOutput>();
+			services.AddSingleton<IInsuranceRepository, InsuranceRepository>();
+			services.AddSingleton<IInsuranceServiceResponse, InsuranceServiceResponse>();
+			services.AddSingleton<IInsuranceManagementService, InsuranceManagementService>();
 			services.AddDbContext<InsuranceContext>(item => item.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
 		}
 
