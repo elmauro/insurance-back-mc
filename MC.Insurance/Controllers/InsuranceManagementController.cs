@@ -1,5 +1,6 @@
 ﻿using MC.Insurance.DTO;
 using MC.Insurance.Interfaces.Application;
+using MC.Insurance.Interfaces.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -14,16 +15,19 @@ namespace insurance_back_mc.Controllers
     public class InsuranceManagementController : CommonController
 	{
         private readonly ILogger<InsuranceManagementController> _logger;
+        private readonly ISplunkLogger splunkLogger;
 
         IInsuranceManagementService insuranceManagementService { get; set; }
 
         public InsuranceManagementController(
             ILogger<InsuranceManagementController> logger,
-            IInsuranceManagementService insuranceManagementService
+            IInsuranceManagementService insuranceManagementService,
+            ISplunkLogger splunkLogger
         )
         {
             _logger = logger;
             this.insuranceManagementService = insuranceManagementService;
+            this.splunkLogger = splunkLogger;
         }
 
         [HttpGet]
@@ -32,13 +36,18 @@ namespace insurance_back_mc.Controllers
 		{
             try
             {
+                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                _logger.LogInformation(environment);
+
                 ExternalResponse httpResponse = await insuranceManagementService.GetInsurance(insuranceId);
 
                 if (httpResponse.IsSuccessStatusCode)
                 {
                     Insurance insurance = JsonConvert.DeserializeObject<Insurance>(httpResponse.Body);
-
+                    
                     _logger.LogInformation("Logging Insurance status {status} for {insurance}", httpResponse.StatusCode, httpResponse.Body);
+                    splunkLogger.LogInformation("Logging Insurance status " + environment + " " + httpResponse.StatusCode + " for " + httpResponse.Body);
+                    
                     return await CreateResponseWithCode(insurance, (HttpStatusCode)httpResponse.StatusCode);
                 }
                 else

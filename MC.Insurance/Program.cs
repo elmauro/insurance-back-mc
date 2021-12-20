@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +19,12 @@ namespace insurance_back_mc
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
+				.ConfigureAppConfiguration((hostingContext, config) =>
+				{
+					var env = hostingContext.HostingEnvironment;
+					config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+					config.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false);
+				})
 				.ConfigureLogging((_, builder) =>
 				{
 					builder.AddFile("logs/app-{Date}.json", isJson: true);

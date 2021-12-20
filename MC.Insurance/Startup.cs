@@ -35,6 +35,8 @@ namespace insurance_back_mc
 		public void ConfigureServices(IServiceCollection services)
 		{
 			services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
+			services.Configure<SplunkConfig>(Configuration.GetSection("SplunkConfig"));
+
 			services.AddOptions();
 
 			services.AddCors(c =>
@@ -50,6 +52,7 @@ namespace insurance_back_mc
 			services.AddSingleton<IInsuranceRepository, InsuranceRepository>();
 			services.AddSingleton<IInsuranceServiceResponse, InsuranceServiceResponse>();
 			services.AddSingleton<IInsuranceManagementService, InsuranceManagementService>();
+			services.AddSingleton<ISplunkLogger, SplunkLogger>();
 			services.AddDbContext<InsuranceContext>(item => item.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));
 		}
 
