@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MC.Insurance.DTO
+﻿namespace MC.Insurance.DTO
 {
-	public static class Enumerations
+    public static class Enumerations
 	{
 		public enum Type
 		{

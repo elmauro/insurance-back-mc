@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace MC.Insurance.DTO
 {
-	public class CustomerResponses
+    public class CustomerResponses
 	{
 		public List<Customer> Customers { get; set; }
 	}

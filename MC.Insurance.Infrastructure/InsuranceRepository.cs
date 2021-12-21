@@ -1,14 +1,11 @@
 ﻿using MC.Insurance.Interfaces.Infrastructure;
 using MC.Insurance.DTO;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Microsoft.Extensions.Options;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 namespace MC.Insurance.Infrastructure
 {

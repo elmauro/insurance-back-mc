@@ -2,13 +2,12 @@
 using MC.Insurance.Interfaces.Application;
 using MC.Insurance.Interfaces.Domain;
 using MC.Insurance.Interfaces.Infrastructure;
-using System;
 using System.Collections;
 using System.Threading.Tasks;
 
 namespace MC.Insurance.ApplicationServices
 {
-	public class InsuranceManagementService : IInsuranceManagementService
+    public class InsuranceManagementService : IInsuranceManagementService
 	{
 		public IInsuranceDomain InsuranceDomain { get; set; }
 		public IInsuranceRepository InsuranceRepository { get; set; }

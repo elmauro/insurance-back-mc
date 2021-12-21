@@ -1,22 +1,19 @@
 ﻿using MC.Insurance.DTO;
 using MC.Insurance.Domain;
 using MC.Insurance.Infrastructure;
-using MC.Insurance.ApplicationServicesTest;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
-using System.Net.Http;
 using System.Threading.Tasks;
 using MC.Insurance.Interfaces.Application;
 using MC.Insurance.Interfaces.Infrastructure;
 using MC.Insurance.ApplicationServicesTest.MockServices;
 using MC.Insurance.ApplicationServices;
 using MC.Insurance.Interfaces.Domain;
-using Newtonsoft.Json.Linq;
 
 namespace MC.Insurance.ApplicationServicesTest
 {
-	[TestFixture]
+    [TestFixture]
 	public class InsuranceManagementServiceTest
 	{
 		IInsuranceManagementService insuranceManagementService;

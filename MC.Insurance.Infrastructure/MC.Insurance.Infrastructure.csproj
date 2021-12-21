@@ -19,10 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MC.Insurance.DTO\MC.Insurance.DTO.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Reference Include="MC.Insurance.DTO">
+      <HintPath>..\MC.Insurance.DTO\bin\Debug\netcoreapp3.1\MC.Insurance.DTO.dll</HintPath>
+    </Reference>
     <Reference Include="MC.Insurance.Interfaces.Infrastructure">
       <HintPath>..\MC.Insurance.Interfaces.Infrastructure\bin\Debug\netcoreapp3.1\MC.Insurance.Interfaces.Infrastructure.dll</HintPath>
     </Reference>

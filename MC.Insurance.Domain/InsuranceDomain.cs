@@ -1,11 +1,10 @@
 ﻿using MC.Insurance.Interfaces.Domain;
 using MC.Insurance.DTO;
 using System;
-using System.Globalization;
 
 namespace MC.Insurance.Domain
 {
-	public class InsuranceDomain: IInsuranceDomain
+    public class InsuranceDomain: IInsuranceDomain
 	{
 		public InsuranceDomain() { }
 

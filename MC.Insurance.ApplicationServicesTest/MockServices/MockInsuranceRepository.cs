@@ -5,12 +5,11 @@ using MC.Insurance.Interfaces.Infrastructure;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MC.Insurance.ApplicationServicesTest.MockServices
 {
-	class MockInsuranceRepository: IInsuranceRepository
+    class MockInsuranceRepository: IInsuranceRepository
 	{
 		private static MockInsuranceRepository instance = null;
         ISerializer Serializer { get; set; }

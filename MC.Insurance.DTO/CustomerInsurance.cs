@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MC.Insurance.DTO
 {
-	public class CustomerInsurance
+    public class CustomerInsurance
 	{
 		public int customerInsuranceId { get; set; }
 		public string document { get; set; }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections;
 using System.Threading.Tasks;
 
 namespace MC.Insurance.Interfaces.Infrastructure
 {
-	public interface IInsuranceRepository
+    public interface IInsuranceRepository
 	{
         Task<IEnumerable> GetInsurances();
         Task<DTO.Insurance> GetInsuranceByID(int insuranceId);

@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MC.Insurance.DTO
 {
-	public class Insurance
+    public class Insurance
 	{
 		public int insuranceId { get; set; }
 		public string name { get; set; }

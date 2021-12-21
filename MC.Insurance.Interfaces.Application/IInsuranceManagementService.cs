@@ -1,10 +1,9 @@
 ﻿using MC.Insurance.DTO;
-using System;
 using System.Threading.Tasks;
 
 namespace MC.Insurance.Interfaces.Application
 {
-	public interface IInsuranceManagementService
+    public interface IInsuranceManagementService
 	{
 		Task<ExternalResponse> GetInsurance(int insuranceId);
 		Task<ExternalResponse> GetInsurances();

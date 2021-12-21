@@ -2,11 +2,6 @@
 using MC.Insurance.Interfaces.Infrastructure;
 using Microsoft.Extensions.Options;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 
 namespace MC.Insurance.Infrastructure
 {
