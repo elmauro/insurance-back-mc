@@ -6,13 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.7.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\MC.Insurance.DTO\MC.Insurance.DTO.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +16,9 @@
     </Reference>
     <Reference Include="MC.Insurance.Domain">
       <HintPath>..\MC.Insurance.Domain\bin\Debug\netcoreapp3.1\MC.Insurance.Domain.dll</HintPath>
+    </Reference>
+    <Reference Include="MC.Insurance.DTO">
+      <HintPath>..\MC.Insurance.DTO\bin\Debug\netcoreapp3.1\MC.Insurance.DTO.dll</HintPath>
     </Reference>
     <Reference Include="MC.Insurance.Infrastructure">
       <HintPath>..\MC.Insurance.Infrastructure\bin\Debug\netcoreapp3.1\MC.Insurance.Infrastructure.dll</HintPath>

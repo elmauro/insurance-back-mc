@@ -10,9 +10,9 @@ namespace insurance_back_mc.Controllers
 {
 	public class CommonController: Controller
 	{
-        public async Task<IActionResult> CreateResponseWithCode(object response, HttpStatusCode statusCode)
+        public async Task<IActionResult> CreateResponseWithCode(object response, int statusCode)
         {
-            return StatusCode((int)statusCode, response);
+            return StatusCode(statusCode, response);
         }
 
         public async Task<IActionResult> CreateErrorMessageForException(Exception ex)

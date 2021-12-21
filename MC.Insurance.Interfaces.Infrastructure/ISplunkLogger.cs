@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace MC.Insurance.Interfaces.Infrastructure
 {
     public interface ISplunkLogger
     {
-        void LogInformation(string log);
+        void LogInformation(string log, params object[] args);
     }
 }

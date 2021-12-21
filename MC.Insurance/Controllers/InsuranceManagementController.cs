@@ -37,7 +37,7 @@ namespace insurance_back_mc.Controllers
             try
             {
                 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                _logger.LogInformation(environment);
+                splunkLogger.LogInformation(environment);
 
                 ExternalResponse httpResponse = await insuranceManagementService.GetInsurance(insuranceId);
 
@@ -46,16 +46,16 @@ namespace insurance_back_mc.Controllers
                     Insurance insurance = JsonConvert.DeserializeObject<Insurance>(httpResponse.Body);
                     
                     _logger.LogInformation("Logging Insurance status {status} for {insurance}", httpResponse.StatusCode, httpResponse.Body);
-                    splunkLogger.LogInformation("Logging Insurance status " + environment + " " + httpResponse.StatusCode + " for " + httpResponse.Body);
+                    splunkLogger.LogInformation("Logging Insurance status {status} for {insurance}", httpResponse.StatusCode, httpResponse.Body);
                     
-                    return await CreateResponseWithCode(insurance, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(insurance, httpResponse.StatusCode);
                 }
                 else
                 {
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
             }
             catch (Exception ex) {
@@ -75,14 +75,14 @@ namespace insurance_back_mc.Controllers
                 {
                     InsurancesResponse insurances = JsonConvert.DeserializeObject<InsurancesResponse>(httpResponse.Body);
 
-                    return await CreateResponseWithCode(insurances.Insurances, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(insurances.Insurances, httpResponse.StatusCode);
                 }
                 else
                 {
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
             }
             catch (Exception ex)
@@ -104,14 +104,14 @@ namespace insurance_back_mc.Controllers
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
                 else
                 {
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
 
             }
@@ -134,14 +134,14 @@ namespace insurance_back_mc.Controllers
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
                 else
                 {
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
 
             }
@@ -164,14 +164,14 @@ namespace insurance_back_mc.Controllers
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
                 else
                 {
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
 
             }
@@ -193,14 +193,14 @@ namespace insurance_back_mc.Controllers
                 {
                     CustomerInsuranceResponse customer = JsonConvert.DeserializeObject<CustomerInsuranceResponse>(httpResponse.Body);
 
-                    return await CreateResponseWithCode(customer.CustomerInsurance, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(customer.CustomerInsurance, httpResponse.StatusCode);
                 }
                 else
                 {
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
             }
             catch (Exception ex)
@@ -221,14 +221,14 @@ namespace insurance_back_mc.Controllers
                 {
                     CustomerResponses customers = JsonConvert.DeserializeObject<CustomerResponses>(httpResponse.Body);
 
-                    return await CreateResponseWithCode(customers.Customers, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(customers.Customers, httpResponse.StatusCode);
                 }
                 else
                 {
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
             }
             catch (Exception ex)
@@ -250,14 +250,14 @@ namespace insurance_back_mc.Controllers
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
                 else
                 {
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
 
             }
@@ -280,14 +280,14 @@ namespace insurance_back_mc.Controllers
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
                 else
                 {
                     var result = httpResponse.Body;
                     var obj = JsonConvert.DeserializeObject<dynamic>(result);
 
-                    return await CreateResponseWithCode(obj, (HttpStatusCode)httpResponse.StatusCode);
+                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
                 }
 
             }

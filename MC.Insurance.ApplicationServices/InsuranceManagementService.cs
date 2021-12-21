@@ -3,6 +3,7 @@ using MC.Insurance.Interfaces.Application;
 using MC.Insurance.Interfaces.Domain;
 using MC.Insurance.Interfaces.Infrastructure;
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace MC.Insurance.ApplicationServices
@@ -10,39 +11,41 @@ namespace MC.Insurance.ApplicationServices
 	public class InsuranceManagementService : IInsuranceManagementService
 	{
 		public IInsuranceDomain InsuranceDomain { get; set; }
-		public IInsuranceFormatInputOutput InsuranceFormatInputOutput { get; set; }
-		public IInsuranceServiceResponse InsuranceServiceResponse { get; set; }
+		public IInsuranceRepository InsuranceRepository { get; set; }
+		public IServiceResponse ServiceResponse { get; set; }
 		public ISerializer Serializer { get; set; }
 
 		public InsuranceManagementService(
 			IInsuranceDomain InsuranceDomain,
-			IInsuranceFormatInputOutput InsuranceFormatInputOutput,
-			IInsuranceServiceResponse InsuranceServiceResponse,
+			IInsuranceRepository InsuranceRepository,
+			IServiceResponse ServiceResponse,
 			ISerializer Serializer
 		) {
 			this.InsuranceDomain = InsuranceDomain;
-			this.InsuranceFormatInputOutput = InsuranceFormatInputOutput;
-			this.InsuranceServiceResponse = InsuranceServiceResponse;
+			this.InsuranceRepository = InsuranceRepository;
+
+			this.ServiceResponse = ServiceResponse;
 			this.Serializer = Serializer;
 		}
 		
 		public async Task<ExternalResponse> GetInsurance(int insuranceId)
 		{
-			ExternalResponse httpResponse = await InsuranceServiceResponse.GetInsurance(insuranceId);
-			return InsuranceFormatInputOutput.GetInsuranceFormatted(httpResponse);
+			DTO.Insurance httpResponse = await InsuranceRepository.GetInsuranceByID(insuranceId);
+			return ServiceResponse.CreateResponse(true, Enumerations.StatusCode.OK, httpResponse);
 		}
 
 		public async Task<ExternalResponse> GetInsurances()
 		{
-			ExternalResponse httpResponse = await InsuranceServiceResponse.GetInsurances();
-			return InsuranceFormatInputOutput.GetInsurancesFormatted(httpResponse);
+			IEnumerable httpResponse = await InsuranceRepository.GetInsurances();
+			return ServiceResponse.CreateInsurancesResponse(true, Enumerations.StatusCode.OK, httpResponse);
 		}
 
 		public async Task<ExternalResponse> CreateInsurance(object content)
 		{
 			DTO.Insurance insurance = Serializer.DeserializeObject<DTO.Insurance>(content.ToString());
 			insurance = InsuranceDomain.AsignCoverage(insurance);
-			return await InsuranceServiceResponse.CreateInsurance(insurance);
+			string httpResponse = await InsuranceRepository.InsertInsurance(insurance);
+			return ServiceResponse.CreateResponse(true, Enumerations.StatusCode.NO_CONTENT, httpResponse);
 		}
 
 		public async Task<ExternalResponse> UpdateInsurance(int insuranceId, object content)
@@ -50,35 +53,40 @@ namespace MC.Insurance.ApplicationServices
 			DTO.Insurance insurance = Serializer.DeserializeObject<DTO.Insurance>(content.ToString());
 			insurance = InsuranceDomain.UpdateInsuraceId(insuranceId, insurance);
 			insurance = InsuranceDomain.AsignCoverage(insurance);
-			return await InsuranceServiceResponse.UpdateInsurance(insurance);
+			string httpResponse = await InsuranceRepository.UpdateInsurance(insurance);
+			return ServiceResponse.CreateResponse(true, Enumerations.StatusCode.NO_CONTENT, httpResponse);
 		}
 
 		public async Task<ExternalResponse> DeleteInsurance(int insuranceId)
 		{
-			return await InsuranceServiceResponse.DeleteInsurance(insuranceId);
+			string httpResponse = await InsuranceRepository.DeleteInsurance(insuranceId);
+			return ServiceResponse.CreateResponse(true, Enumerations.StatusCode.NO_CONTENT, httpResponse);
 		}
 
 		public async Task<ExternalResponse> GetCustomerInsurances(string document)
 		{
-			ExternalResponse httpResponse = await InsuranceServiceResponse.GetCustomerInsurances(document);
-			return InsuranceFormatInputOutput.GetCustomerFormatted(httpResponse);
+			IEnumerable httpResponse = await InsuranceRepository.GetCustomerByID(document);
+			return ServiceResponse.CreateCustomersInsuranceResponse(true, Enumerations.StatusCode.OK, httpResponse);
 		}
 
 		public async Task<ExternalResponse> GetCustomers()
 		{
-			return InsuranceFormatInputOutput.GetDefaultCustomersFormatted();
+			IEnumerable httpResponse = await InsuranceRepository.GetCustomers();
+			return ServiceResponse.CreateCustomersResponse(true, Enumerations.StatusCode.OK, httpResponse);
 		}
 
 		public async Task<ExternalResponse> CreateCustomerInsurance(string document, object content)
 		{
 			DTO.CustomerInsurance customerInsurance = Serializer.DeserializeObject<DTO.CustomerInsurance>(content.ToString());
 			customerInsurance = InsuranceDomain.UpdateValues(document, customerInsurance);
-			return await InsuranceServiceResponse.CreateCustomerInsurance(customerInsurance);
+			string httpResponse = await InsuranceRepository.InsertCustomerInsurance(customerInsurance);
+			return ServiceResponse.CreateResponse(true, Enumerations.StatusCode.NO_CONTENT, httpResponse);
 		}
 
 		public async Task<ExternalResponse> DeleteCustomerInsurance(string document, int insuranceId)
 		{
-			return await InsuranceServiceResponse.DeleteCustomerInsurance(document, insuranceId);
+			string httpResponse = await InsuranceRepository.DeleteCustomerInsurance(document, insuranceId);
+			return ServiceResponse.CreateResponse(true, Enumerations.StatusCode.NO_CONTENT, httpResponse);
 		}
 	}
 }

@@ -7,10 +7,12 @@ using System.Collections;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using Microsoft.Extensions.Options;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace MC.Insurance.Infrastructure
 {
-	public class InsuranceRepository : IInsuranceRepository
+    public class InsuranceRepository : IInsuranceRepository
 	{
 		InsuranceContext DataContext;
 		private IOptions<ConnectionStrings> settings;
@@ -32,27 +34,55 @@ namespace MC.Insurance.Infrastructure
 
 			DataContext = new InsuranceContext(options);
 		}
-		public void DeleteInsurance(int insuranceId)
+		public Task<string> DeleteInsurance(int insuranceId)
 		{
 			DTO.Insurance insurance = DataContext.Insurances.Find(insuranceId);
 			DataContext.Insurances.Remove(insurance);
+
+			Task<string> task = new Task<string>(() =>
+			{
+				return string.Empty;
+			});
+			task.Start();
+			return task;
 		}
 
-		public DTO.Insurance GetInsuranceByID(int insuranceId)
+		public Task<DTO.Insurance> GetInsuranceByID(int insuranceId)
 		{
-			return DataContext.Insurances.Find(insuranceId);
+			var response = DataContext.Insurances.Find(insuranceId);
+
+			Task<DTO.Insurance> task = new Task<DTO.Insurance>(() =>
+			{
+				return response;
+			});
+			task.Start();
+			return task;
 		}
 
-		public IEnumerable GetInsurances()
+		public Task<IEnumerable> GetInsurances()
 		{
-			return DataContext.Insurances.Local.ToList();
+			var response = DataContext.Insurances.ToList();
+
+			Task<IEnumerable> task = new Task<IEnumerable>(() =>
+			{
+				return response;
+			});
+			task.Start();
+			return task;
 		}
 
-		public void InsertInsurance(DTO.Insurance insurance)
+		public Task<string> InsertInsurance(DTO.Insurance insurance)
 		{
 			insuranceId++;
 			insurance.insuranceId = insuranceId;
 			DataContext.Insurances.Add(insurance);
+
+			Task<string> task = new Task<string>(() =>
+			{
+				return string.Empty;
+			});
+			task.Start();
+			return task;
 		}
 
 		public void Save()
@@ -60,7 +90,7 @@ namespace MC.Insurance.Infrastructure
 			DataContext.SaveChanges();
 		}
 
-		public void UpdateInsurance(DTO.Insurance insurance)
+		public Task<string> UpdateInsurance(DTO.Insurance insurance)
 		{
 			DTO.Insurance _insurance = DataContext.Insurances.Find(insurance.insuranceId);
 			_insurance.name = insurance.name;
@@ -73,27 +103,85 @@ namespace MC.Insurance.Infrastructure
 			_insurance.risk = insurance.risk;
 
 			DataContext.Entry(_insurance).State = EntityState.Modified;
+
+			Task<string> task = new Task<string>(() =>
+			{
+				return string.Empty;
+			});
+			task.Start();
+			return task;
 		}
 
-		public IEnumerable GetCustomers()
+		public Task<IEnumerable> GetCustomers()
 		{
-			throw new NotImplementedException();
+			CustomerResponses response = new CustomerResponses();
+			response.Customers = new List<Customer>();
+
+			response.Customers.Add(
+				new Customer
+				{
+					document = "98632674",
+					name = "Mauricio Cadavid"
+				}
+			);
+
+			response.Customers.Add(
+				new Customer
+				{
+					document = "8288221",
+					name = "Hernan Cadavid"
+				}
+			);
+
+			response.Customers.Add(
+				new Customer
+				{
+					document = "43160724",
+					name = "Maribel Gonzalez"
+				}
+			);
+
+			Task<IEnumerable> task = new Task<IEnumerable>(() =>
+			{
+				return response.Customers;
+			});
+			task.Start();
+			return task;
 		}
 
-		public IEnumerable GetCustomerByID(string document)
+		public Task<IEnumerable> GetCustomerByID(string document)
 		{
-			return DataContext.CustomerInsurances.Where(c => c.document == document);
+			Task<IEnumerable> task = new Task<IEnumerable>(() =>
+			{
+				return DataContext.CustomerInsurances.Where(c => c.document == document);
+			});
+			task.Start();
+			return task;
 		}
 
-		public void InsertCustomerInsurance(DTO.CustomerInsurance customerInsurance)
+		public Task<string> InsertCustomerInsurance(DTO.CustomerInsurance customerInsurance)
 		{
 			DataContext.CustomerInsurances.Add(customerInsurance);
+
+			Task<string> task = new Task<string>(() =>
+			{
+				return string.Empty;
+			});
+			task.Start();
+			return task;
 		}
 
-		public void DeleteCustomerInsurance(string document, int insuranceId)
+		public Task<string> DeleteCustomerInsurance(string document, int insuranceId)
 		{
 			DTO.CustomerInsurance customerInsurance = DataContext.CustomerInsurances.Where(c => c.document == document && c.insuranceId == insuranceId).First();
 			DataContext.CustomerInsurances.Remove(customerInsurance);
+
+			Task<string> task = new Task<string>(() =>
+			{
+				return string.Empty;
+			});
+			task.Start();
+			return task;
 		}
-	}
+    }
 }

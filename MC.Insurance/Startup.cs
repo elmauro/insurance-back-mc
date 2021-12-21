@@ -48,9 +48,9 @@ namespace insurance_back_mc
 
 			services.AddSingleton<IInsuranceDomain, InsuranceDomain>();
 			services.AddSingleton<ISerializer, Serializer>();
-			services.AddSingleton<IInsuranceFormatInputOutput, InsuranceFormatInputOutput>();
 			services.AddSingleton<IInsuranceRepository, InsuranceRepository>();
-			services.AddSingleton<IInsuranceServiceResponse, InsuranceServiceResponse>();
+			services.AddSingleton<ISerializer, Serializer>();
+			services.AddSingleton<IServiceResponse, ServiceResponse>();
 			services.AddSingleton<IInsuranceManagementService, InsuranceManagementService>();
 			services.AddSingleton<ISplunkLogger, SplunkLogger>();
 			services.AddDbContext<InsuranceContext>(item => item.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));

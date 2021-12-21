@@ -20,6 +20,7 @@ namespace MC.Insurance.ApplicationServicesTest
 	public class InsuranceManagementServiceTest
 	{
 		IInsuranceManagementService insuranceManagementService;
+		
 		DTO.Insurance insurance;
 		DTO.CustomerInsurance customerInsurance;
 
@@ -28,14 +29,13 @@ namespace MC.Insurance.ApplicationServicesTest
 		{
 			IInsuranceDomain InsuranceDomain = new InsuranceDomain();
 			ISerializer Serializer = new Serializer();
-			IInsuranceFormatInputOutput InsuranceFormatInputOutput = new InsuranceFormatInputOutput(InsuranceDomain, Serializer);
+			IServiceResponse ServiceResponse = new ServiceResponse(Serializer);
+			IInsuranceRepository InsuranceRepository = new MockInsuranceRepository();
 
-			IInsuranceServiceResponse InsuranceServiceResponse = MockInsuranceServiceResponse.Instance;
-			
 			insuranceManagementService = new InsuranceManagementService(
-				InsuranceDomain, 
-				InsuranceFormatInputOutput, 
-				InsuranceServiceResponse,
+				InsuranceDomain,
+				InsuranceRepository,
+				ServiceResponse,
 				Serializer
 			);
 
@@ -95,7 +95,7 @@ namespace MC.Insurance.ApplicationServicesTest
 			var json = JsonConvert.SerializeObject(insurance);
 
 			ExternalResponse httpResponse = await insuranceManagementService.CreateInsurance(json);
-			Assert.AreEqual(201, httpResponse.StatusCode);
+			Assert.AreEqual(204, httpResponse.StatusCode);
 		}
 
 		[Test]
@@ -105,11 +105,7 @@ namespace MC.Insurance.ApplicationServicesTest
 			var json = JsonConvert.SerializeObject(insurance);
 
 			ExternalResponse httpResponse = await insuranceManagementService.UpdateInsurance(insuranceId, json);
-			var result = httpResponse.Body;
-
-			JObject jObject = JsonConvert.DeserializeObject<JObject>(result);
-
-			Assert.AreEqual(null, jObject);
+			Assert.AreEqual(204, httpResponse.StatusCode);
 		}
 
 		[Test]
@@ -118,11 +114,7 @@ namespace MC.Insurance.ApplicationServicesTest
 			int insuranceId = 1;
 
 			ExternalResponse httpResponse = await insuranceManagementService.DeleteInsurance(insuranceId);
-			var result = httpResponse.Body;
-
-			JObject jObject = JsonConvert.DeserializeObject<JObject>(result);
-
-			Assert.AreEqual(null, jObject);
+			Assert.AreEqual(204, httpResponse.StatusCode);
 		}
 
 		[Test]
@@ -143,7 +135,7 @@ namespace MC.Insurance.ApplicationServicesTest
 			var json = JsonConvert.SerializeObject(customerInsurance);
 
 			ExternalResponse httpResponse = await insuranceManagementService.CreateCustomerInsurance(document, json);
-			Assert.AreEqual(201, httpResponse.StatusCode);
+			Assert.AreEqual(204, httpResponse.StatusCode);
 		}
 
 		[Test]
@@ -153,11 +145,7 @@ namespace MC.Insurance.ApplicationServicesTest
 			int insuranceId = 1;
 
 			ExternalResponse httpResponse = await insuranceManagementService.DeleteCustomerInsurance(document, insuranceId);
-			var result = httpResponse.Body;
-
-			JObject jObject = JsonConvert.DeserializeObject<JObject>(result);
-
-			Assert.AreEqual(null, jObject);
+			Assert.AreEqual(204, httpResponse.StatusCode);
 		}
 
 		[Test]
@@ -166,7 +154,7 @@ namespace MC.Insurance.ApplicationServicesTest
 			ExternalResponse customers = await insuranceManagementService.GetCustomers();
 			var obj = JsonConvert.DeserializeObject<dynamic>(customers.Body);
 
-			Assert.AreEqual(3, obj.Count);
+			Assert.AreEqual(3, obj.CustomerInsurance.Count);
 		}
 	}
 }

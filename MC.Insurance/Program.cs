@@ -33,16 +33,5 @@ namespace insurance_back_mc
 				{
 					webBuilder.UseStartup<Startup>();
 				});
-
-		/*public static IWebHost BuildWebHost(string[] args) =>
-			WebHost.CreateDefaultBuilder(args)
-				.ConfigureAppConfiguration((builderContext, config) => {
-					config.AddEnvironmentVariables();
-					IHostingEnvironment env = builderContext.HostingEnvironment;
-					config.SetBasePath(AppContext.BaseDirectory).AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-					.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true);
-				})
-				.UseStartup<Startup>()
-				.Build();*/
 	}
 }

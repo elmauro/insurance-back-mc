@@ -4,6 +4,8 @@ using Microsoft.Extensions.Options;
 using Serilog;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace MC.Insurance.Infrastructure
@@ -21,9 +23,9 @@ namespace MC.Insurance.Infrastructure
             .WriteTo.EventCollector(splunk.Url, splunk.Token)
             .CreateLogger();
         }
-        public void LogInformation(string log)
+        public void LogInformation(string log, params object[] args)
         {
-            logger.Information(log);
+            logger.Information(log, args);
         }
     }
 }
