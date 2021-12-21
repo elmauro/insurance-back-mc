@@ -117,6 +117,7 @@ namespace insurance_back_mc.Controllers
             }
             catch (Exception ex)
             {
+                splunkLogger.LogError("{message} - {inner}", ex.Message, ex.InnerException.ToString());
                 return await CreateErrorMessageForException(ex);
             }
         }

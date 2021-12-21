@@ -154,7 +154,7 @@ namespace MC.Insurance.ApplicationServicesTest
 			ExternalResponse customers = await insuranceManagementService.GetCustomers();
 			var obj = JsonConvert.DeserializeObject<dynamic>(customers.Body);
 
-			Assert.AreEqual(3, obj.CustomerInsurance.Count);
+			Assert.AreEqual(3, obj.Customers.Count);
 		}
 	}
 }

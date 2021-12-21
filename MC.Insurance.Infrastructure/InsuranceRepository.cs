@@ -38,6 +38,7 @@ namespace MC.Insurance.Infrastructure
 		{
 			DTO.Insurance insurance = DataContext.Insurances.Find(insuranceId);
 			DataContext.Insurances.Remove(insurance);
+			DataContext.SaveChanges();
 
 			Task<string> task = new Task<string>(() =>
 			{
@@ -76,6 +77,7 @@ namespace MC.Insurance.Infrastructure
 			insuranceId++;
 			insurance.insuranceId = insuranceId;
 			DataContext.Insurances.Add(insurance);
+			DataContext.SaveChanges();
 
 			Task<string> task = new Task<string>(() =>
 			{
@@ -83,11 +85,6 @@ namespace MC.Insurance.Infrastructure
 			});
 			task.Start();
 			return task;
-		}
-
-		public void Save()
-		{
-			DataContext.SaveChanges();
 		}
 
 		public Task<string> UpdateInsurance(DTO.Insurance insurance)
@@ -103,6 +100,7 @@ namespace MC.Insurance.Infrastructure
 			_insurance.risk = insurance.risk;
 
 			DataContext.Entry(_insurance).State = EntityState.Modified;
+			DataContext.SaveChanges();
 
 			Task<string> task = new Task<string>(() =>
 			{
@@ -162,6 +160,7 @@ namespace MC.Insurance.Infrastructure
 		public Task<string> InsertCustomerInsurance(DTO.CustomerInsurance customerInsurance)
 		{
 			DataContext.CustomerInsurances.Add(customerInsurance);
+			DataContext.SaveChanges();
 
 			Task<string> task = new Task<string>(() =>
 			{
@@ -175,6 +174,7 @@ namespace MC.Insurance.Infrastructure
 		{
 			DTO.CustomerInsurance customerInsurance = DataContext.CustomerInsurances.Where(c => c.document == document && c.insuranceId == insuranceId).First();
 			DataContext.CustomerInsurances.Remove(customerInsurance);
+			DataContext.SaveChanges();
 
 			Task<string> task = new Task<string>(() =>
 			{

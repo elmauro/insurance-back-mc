@@ -13,7 +13,6 @@ namespace MC.Insurance.Interfaces.Infrastructure
         Task<string> InsertInsurance(DTO.Insurance insurance);
         Task<string> DeleteInsurance(int insuranceId);
         Task<string> UpdateInsurance(DTO.Insurance insurance);
-        void Save();
 
         Task<IEnumerable> GetCustomers();
         Task<IEnumerable> GetCustomerByID(string document);

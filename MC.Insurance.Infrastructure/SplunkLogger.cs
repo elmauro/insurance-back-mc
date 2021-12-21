@@ -23,9 +23,15 @@ namespace MC.Insurance.Infrastructure
             .WriteTo.EventCollector(splunk.Url, splunk.Token)
             .CreateLogger();
         }
+
         public void LogInformation(string log, params object[] args)
         {
             logger.Information(log, args);
+        }
+
+        public void LogError(string log, params object[] args)
+        {
+            logger.Error(log, args);
         }
     }
 }
