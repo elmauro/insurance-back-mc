@@ -117,7 +117,10 @@ namespace MC.Insurance.ApplicationServicesTest
 				InsuranceDomain
 			);
 
-			IOptions<SplunkConfig> someOptions = Options.Create<SplunkConfig>(new SplunkConfig());
+			IOptions<SplunkConfig> someOptions = Options.Create<SplunkConfig>(new SplunkConfig() { 
+				Url = "http://192.168.1.3:8088/services/collector",
+				Token = "403a559e-9ed7-4ef8-9be2-7cb2f969d416"
+			});
 			splunkLogger = new SplunkLogger(someOptions);
 
 			ILogger<InsuranceManagementController> logger = Mock.Of<ILogger<InsuranceManagementController>>();
@@ -126,7 +129,7 @@ namespace MC.Insurance.ApplicationServicesTest
 		}
 
 		[Test]
-		public async Task GetInsurance()
+		public void GetInsurance()
 		{
 			var httpResponse = controller.getInsurance(1);
 			DTO.Insurance obj = (DTO.Insurance)((ObjectResult)httpResponse.Result).Value;
@@ -135,7 +138,7 @@ namespace MC.Insurance.ApplicationServicesTest
 		}
 
 		[Test]
-		public async Task GetInsurances()
+		public void GetInsurances()
 		{
 			var httpResponse = controller.getInsurances();
 			List<DTO.Insurance> obj = (List<DTO.Insurance>)((ObjectResult)httpResponse.Result).Value;
@@ -144,28 +147,28 @@ namespace MC.Insurance.ApplicationServicesTest
 		}
 
 		[Test]
-		public async Task CreateInsurance()
+		public void CreateInsurance()
 		{
 			var httpResponse = controller.CreateInsurance(insurance);
 			Assert.AreEqual(204, ((ObjectResult) httpResponse.Result).StatusCode);
 		}
 
 		[Test]
-		public async Task UpdateInsurance()
+		public void UpdateInsurance()
 		{
 			var httpResponse = controller.UpdateInsurance(1, insurance);
 			Assert.AreEqual(204, ((ObjectResult)httpResponse.Result).StatusCode);
 		}
 
 		[Test]
-		public async Task DeleteInsurance()
+		public void DeleteInsurance()
 		{
 			var httpResponse = controller.DeleteInsurance(1); 
 			Assert.AreEqual(204, ((ObjectResult)httpResponse.Result).StatusCode);
 		}
 
 		[Test]
-		public async Task GetCustomerInsurances()
+		public void GetCustomerInsurances()
 		{
 			var httpResponse = controller.getCustomer("98632674");
 			List<DTO.CustomerInsurance> obj = (List<DTO.CustomerInsurance>)((ObjectResult)httpResponse.Result).Value;
@@ -174,26 +177,26 @@ namespace MC.Insurance.ApplicationServicesTest
 		}
 
 		[Test]
-		public async Task CreateCustomerInsurance()
+		public void CreateCustomerInsurance()
 		{
 			var httpResponse = controller.CreateCustomerInsurance("98632673", customerInsurance);
 			Assert.AreEqual(204, ((ObjectResult)httpResponse.Result).StatusCode);
 		}
 
 		[Test]
-		public async Task DeleteCustomerInsurance()
+		public void DeleteCustomerInsurance()
 		{
 			var httpResponse = controller.DeleteCustomerInsurance("98632673", 1);
 			Assert.AreEqual(204, ((ObjectResult)httpResponse.Result).StatusCode);
 		}
 
-		[Test]
-		public async Task GetCustomers()
-		{
-			var httpResponse = controller.getCustomers();
-			List<DTO.Customer> obj = (List<DTO.Customer>)((ObjectResult)httpResponse.Result).Value;
+        [Test]
+        public void GetCustomers()
+        {
+            var httpResponse = controller.getCustomers();
+            List<DTO.Customer> obj = (List<DTO.Customer>)((ObjectResult)httpResponse.Result).Value;
 
-			Assert.AreEqual(3, obj.Count);
-		}
-	}
+            Assert.AreEqual(3, obj.Count);
+        }
+    }
 }
