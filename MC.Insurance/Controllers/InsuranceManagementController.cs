@@ -33,30 +33,13 @@ namespace insurance_back_mc.Controllers
 		{
             try
             {
-                var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                splunkLogger.LogInformation(environment);
-
-                ExternalResponse httpResponse = await insuranceManagementService.GetInsurance(insuranceId);
-
-                if (httpResponse.IsSuccessStatusCode)
-                {
-                    Insurance insurance = JsonConvert.DeserializeObject<Insurance>(httpResponse.Body);
-                    
-                    _logger.LogInformation("Logging Insurance status {status} for {insurance}", httpResponse.StatusCode, httpResponse.Body);
-                    splunkLogger.LogInformation("Logging Insurance status {status} for {insurance}", httpResponse.StatusCode, httpResponse.Body);
-                    
-                    return await CreateResponseWithCode(insurance, httpResponse.StatusCode);
-                }
-                else
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
+                Response httpResponse = await insuranceManagementService.GetInsurance(insuranceId);
+                _logger.LogInformation("Logging Insurance status {status} for {insurance}", httpResponse.StatusCode, httpResponse.Body);
+                splunkLogger.LogInformation("Logging Insurance status {status} for {insurance}", httpResponse.StatusCode, httpResponse.Body);
+                return CreateResponse(httpResponse);
             }
             catch (Exception ex) {
-                return await CreateErrorMessageForException(ex);
+                return CreateErrorMessageForException(ex);
             }
         }
 
@@ -66,86 +49,43 @@ namespace insurance_back_mc.Controllers
         {
             try
             {
-                ExternalResponse httpResponse = await insuranceManagementService.GetInsurances();
-
-                if (httpResponse.IsSuccessStatusCode)
-                {
-                    InsurancesResponse insurances = JsonConvert.DeserializeObject<InsurancesResponse>(httpResponse.Body);
-
-                    return await CreateResponseWithCode(insurances.Insurances, httpResponse.StatusCode);
-                }
-                else
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
+                Response httpResponse = await insuranceManagementService.GetInsurances();
+                return CreateResponse(httpResponse);
             }
             catch (Exception ex)
             {
-                return await CreateErrorMessageForException(ex);
+                return CreateErrorMessageForException(ex);
             }
         }
 
         [HttpPost]
         [Route("/insurances")]
-        public async Task<IActionResult> CreateInsurance([FromBody] object content)
+        public async Task<IActionResult> CreateInsurance(Insurance content)
         {
             try
             {
-                ExternalResponse httpResponse = await insuranceManagementService.CreateInsurance(content);
-
-                if (httpResponse.IsSuccessStatusCode)
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
-                else
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
-
+                Response httpResponse = await insuranceManagementService.CreateInsurance(content);
+                return CreateResponse(httpResponse);
             }
             catch (Exception ex)
             {
                 splunkLogger.LogError("{message} - {inner}", ex.Message, ex.InnerException.ToString());
-                return await CreateErrorMessageForException(ex);
+                return CreateErrorMessageForException(ex);
             }
         }
 
         [HttpPut]
         [Route("/insurances/{insuranceId}")]
-        public async Task<IActionResult> UpdateInsurance([FromRoute] int insuranceId, [FromBody] object content)
+        public async Task<IActionResult> UpdateInsurance([FromRoute] int insuranceId, Insurance insurance)
         {
             try
             {
-                ExternalResponse httpResponse = await insuranceManagementService.UpdateInsurance(insuranceId, content);
-
-                if (httpResponse.IsSuccessStatusCode)
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
-                else
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
-
+                Response httpResponse = await insuranceManagementService.UpdateInsurance(insuranceId, insurance);
+                return CreateResponse(httpResponse);
             }
             catch (Exception ex)
             {
-                return await CreateErrorMessageForException(ex);
+                return CreateErrorMessageForException(ex);
             }
         }
 
@@ -155,27 +95,12 @@ namespace insurance_back_mc.Controllers
         {
             try
             {
-                ExternalResponse httpResponse = await insuranceManagementService.DeleteInsurance(insuranceId);
-
-                if (httpResponse.IsSuccessStatusCode)
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
-                else
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
-
+                Response httpResponse = await insuranceManagementService.DeleteInsurance(insuranceId);
+                return CreateResponse(httpResponse);
             }
             catch (Exception ex)
             {
-                return await CreateErrorMessageForException(ex);
+                return CreateErrorMessageForException(ex);
             }
         }
 
@@ -185,83 +110,42 @@ namespace insurance_back_mc.Controllers
         {
             try
             {
-                ExternalResponse httpResponse = await insuranceManagementService.GetCustomerInsurances(document);
-
-                if (httpResponse.IsSuccessStatusCode)
-                {
-                    CustomerInsuranceResponse customer = JsonConvert.DeserializeObject<CustomerInsuranceResponse>(httpResponse.Body);
-
-                    return await CreateResponseWithCode(customer.CustomerInsurance, httpResponse.StatusCode);
-                }
-                else
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
+                Response httpResponse = await insuranceManagementService.GetCustomerInsurances(document);
+                return CreateResponse(httpResponse);
             }
             catch (Exception ex)
             {
-                return await CreateErrorMessageForException(ex);
+                return CreateErrorMessageForException(ex);
             }
         }
 
         [HttpGet]
         [Route("/customers")]
-        public async Task<IActionResult> getCustomers([FromRoute] string document)
+        public async Task<IActionResult> getCustomers()
         {
             try
             {
-                ExternalResponse httpResponse = await insuranceManagementService.GetCustomers();
-
-                if (httpResponse.IsSuccessStatusCode)
-                {
-                    CustomerResponses customers = JsonConvert.DeserializeObject<CustomerResponses>(httpResponse.Body);
-
-                    return await CreateResponseWithCode(customers.Customers, httpResponse.StatusCode);
-                }
-                else
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
+                Response httpResponse = await insuranceManagementService.GetCustomers();
+                return CreateResponse(httpResponse);
             }
             catch (Exception ex)
             {
-                return await CreateErrorMessageForException(ex);
+                return CreateErrorMessageForException(ex);
             }
         }
 
         [HttpPost]
         [Route("/customers/{document}/insurances")]
-        public async Task<IActionResult> CreateCustomerInsurance([FromRoute]string document, [FromBody] object content)
+        public async Task<IActionResult> CreateCustomerInsurance([FromRoute]string document, CustomerInsurance customerInsurance)
         {
             try
             {
-                ExternalResponse httpResponse = await insuranceManagementService.CreateCustomerInsurance(document, content);
-
-                if (httpResponse.IsSuccessStatusCode)
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
-                else
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
-
+                Response httpResponse = await insuranceManagementService.CreateCustomerInsurance(document, customerInsurance);
+                return CreateResponse(httpResponse);
             }
             catch (Exception ex)
             {
-                return await CreateErrorMessageForException(ex);
+                return CreateErrorMessageForException(ex);
             }
         }
 
@@ -271,27 +155,12 @@ namespace insurance_back_mc.Controllers
         {
             try
             {
-                ExternalResponse httpResponse = await insuranceManagementService.DeleteCustomerInsurance(document, insuranceId);
-
-                if (httpResponse.IsSuccessStatusCode)
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
-                else
-                {
-                    var result = httpResponse.Body;
-                    var obj = JsonConvert.DeserializeObject<dynamic>(result);
-
-                    return await CreateResponseWithCode(obj, httpResponse.StatusCode);
-                }
-
+                Response httpResponse = await insuranceManagementService.DeleteCustomerInsurance(document, insuranceId);
+                return CreateResponse(httpResponse);
             }
             catch (Exception ex)
             {
-                return await CreateErrorMessageForException(ex);
+                return CreateErrorMessageForException(ex);
             }
         }
     }

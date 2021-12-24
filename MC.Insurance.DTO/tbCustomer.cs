@@ -2,11 +2,11 @@
 
 namespace MC.Insurance.DTO
 {
-    public class tbCustomer
+    public class TbCustomer
     {
         [Key]
-        public int customerId { get; set; }
-        public string document { get; set; }
-        public string customerName { get; set; }
+        public int CustomerId { get; set; }
+        public string Document { get; set; }
+        public string CustomerName { get; set; }
     }
 }

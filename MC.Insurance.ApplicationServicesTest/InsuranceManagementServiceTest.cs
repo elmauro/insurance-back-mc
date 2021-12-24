@@ -1,22 +1,30 @@
 ﻿using MC.Insurance.DTO;
 using MC.Insurance.Domain;
-using MC.Insurance.Infrastructure;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using System;
 using System.Threading.Tasks;
 using MC.Insurance.Interfaces.Application;
-using MC.Insurance.Interfaces.Infrastructure;
-using MC.Insurance.ApplicationServicesTest.MockServices;
 using MC.Insurance.ApplicationServices;
 using MC.Insurance.Interfaces.Domain;
+using Moq;
+using MC.Insurance.ApplicationServicesTest.Fixtures;
+using System.Collections;
+using System.Collections.Generic;
+using MC.Insurance.Interfaces.Infrastructure;
+using insurance_back_mc.Controllers;
+using MC.Insurance.Infrastructure;
+using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MC.Insurance.ApplicationServicesTest
 {
     [TestFixture]
 	public class InsuranceManagementServiceTest
 	{
+		InsuranceManagementController controller;
 		IInsuranceManagementService insuranceManagementService;
+		ISplunkLogger splunkLogger;
 		
 		DTO.Insurance insurance;
 		DTO.CustomerInsurance customerInsurance;
@@ -24,17 +32,15 @@ namespace MC.Insurance.ApplicationServicesTest
 		[SetUp]
 		public void Init()
 		{
-			IInsuranceDomain InsuranceDomain = new InsuranceDomain();
-			ISerializer Serializer = new Serializer();
-			IServiceResponse ServiceResponse = new ServiceResponse(Serializer);
-			IInsuranceRepository InsuranceRepository = new MockInsuranceRepository();
+			var mock = new Mock<IInsuranceRepository>();
 
-			insuranceManagementService = new InsuranceManagementService(
-				InsuranceDomain,
-				InsuranceRepository,
-				ServiceResponse,
-				Serializer
-			);
+			object obj = MockInsurance.GetInsurances();
+			IEnumerable InsuranceList = (List<DTO.Insurance>) obj;
+			mock.Setup(i => i.GetInsurances()).Returns(Task.FromResult(InsuranceList));
+
+			obj = MockInsurance.GetInsurance();
+			DTO.Insurance ins = (DTO.Insurance) obj;
+			mock.Setup(i => i.GetInsuranceByID(1)).Returns(Task.FromResult(ins));
 
 			insurance = new DTO.Insurance
 			{
@@ -48,6 +54,43 @@ namespace MC.Insurance.ApplicationServicesTest
 				price = 200000,
 				risk = 4
 			};
+
+			mock.Setup(i => i.InsertInsurance(insurance)).Returns(Task.FromResult(String.Empty));
+			mock.Setup(i => i.DeleteInsurance(1)).Returns(Task.FromResult(String.Empty));
+			mock.Setup(i => i.UpdateInsurance(insurance)).Returns(Task.FromResult(String.Empty));
+			
+			ListResponse<Customer> response = new ListResponse<Customer>();
+			response.List = new List<Customer>();
+
+			response.List.Add(
+				new Customer
+				{
+					document = "98632674",
+					name = "Mauricio Cadavid"
+				}
+			);
+
+			response.List.Add(
+				new Customer
+				{
+					document = "8288221",
+					name = "Hernan Cadavid"
+				}
+			);
+
+			response.List.Add(
+				new Customer
+				{
+					document = "43160724",
+					name = "Maribel Gonzalez"
+				}
+			);
+
+			mock.Setup(i => i.GetCustomers()).Returns(Task.FromResult((IEnumerable) response.List));
+
+			obj = MockInsurance.GetCustomerInsurances();
+			IEnumerable CustomerInsurancesList = (List<DTO.CustomerInsurance>) obj;
+			mock.Setup(i => i.GetCustomerByID("98632674")).Returns(Task.FromResult(CustomerInsurancesList));
 
 			customerInsurance = new DTO.CustomerInsurance
 			{
@@ -64,94 +107,93 @@ namespace MC.Insurance.ApplicationServicesTest
 				price = 200000,
 				risk = 4
 			};
+
+			mock.Setup(i => i.InsertCustomerInsurance(customerInsurance)).Returns(Task.FromResult(String.Empty));
+			mock.Setup(i => i.DeleteCustomerInsurance("98632674", 1)).Returns(Task.FromResult(String.Empty));
+
+			IInsuranceDomain InsuranceDomain = new InsuranceDomain(mock.Object);
+
+			insuranceManagementService = new InsuranceManagementService(
+				InsuranceDomain
+			);
+
+			IOptions<SplunkConfig> someOptions = Options.Create<SplunkConfig>(new SplunkConfig());
+			splunkLogger = new SplunkLogger(someOptions);
+
+			ILogger<InsuranceManagementController> logger = Mock.Of<ILogger<InsuranceManagementController>>();
+
+			controller = new InsuranceManagementController(logger, insuranceManagementService, splunkLogger);
 		}
 
 		[Test]
 		public async Task GetInsurance()
 		{
-			int insuranceId = 1;
+			var httpResponse = controller.getInsurance(1);
+			DTO.Insurance obj = (DTO.Insurance)((ObjectResult)httpResponse.Result).Value;
 
-			ExternalResponse me = await insuranceManagementService.GetInsurance(insuranceId);
-			MC.Insurance.DTO.Insurance insurance = JsonConvert.DeserializeObject<DTO.Insurance>(me.Body);
-
-			Assert.AreEqual("Incendios A1", insurance.name);
+			Assert.AreEqual("Incendios A1", obj.name);
 		}
 
 		[Test]
 		public async Task GetInsurances()
 		{
-			ExternalResponse Response = await insuranceManagementService.GetInsurances();
-			InsurancesResponse obj = JsonConvert.DeserializeObject<InsurancesResponse>(Response.Body);
+			var httpResponse = controller.getInsurances();
+			List<DTO.Insurance> obj = (List<DTO.Insurance>)((ObjectResult)httpResponse.Result).Value;
 
-			Assert.AreEqual(3, obj.Insurances.Count);
+			Assert.AreEqual(3, obj.Count);
 		}
 
 		[Test]
 		public async Task CreateInsurance()
 		{
-			var json = JsonConvert.SerializeObject(insurance);
-
-			ExternalResponse httpResponse = await insuranceManagementService.CreateInsurance(json);
-			Assert.AreEqual(204, httpResponse.StatusCode);
+			var httpResponse = controller.CreateInsurance(insurance);
+			Assert.AreEqual(204, ((ObjectResult) httpResponse.Result).StatusCode);
 		}
 
 		[Test]
 		public async Task UpdateInsurance()
 		{
-			int insuranceId = 1;
-			var json = JsonConvert.SerializeObject(insurance);
-
-			ExternalResponse httpResponse = await insuranceManagementService.UpdateInsurance(insuranceId, json);
-			Assert.AreEqual(204, httpResponse.StatusCode);
+			var httpResponse = controller.UpdateInsurance(1, insurance);
+			Assert.AreEqual(204, ((ObjectResult)httpResponse.Result).StatusCode);
 		}
 
 		[Test]
 		public async Task DeleteInsurance()
 		{
-			int insuranceId = 1;
-
-			ExternalResponse httpResponse = await insuranceManagementService.DeleteInsurance(insuranceId);
-			Assert.AreEqual(204, httpResponse.StatusCode);
+			var httpResponse = controller.DeleteInsurance(1); 
+			Assert.AreEqual(204, ((ObjectResult)httpResponse.Result).StatusCode);
 		}
 
 		[Test]
 		public async Task GetCustomerInsurances()
 		{
-			string document = "98632674";
+			var httpResponse = controller.getCustomer("98632674");
+			List<DTO.CustomerInsurance> obj = (List<DTO.CustomerInsurance>)((ObjectResult)httpResponse.Result).Value;
 
-			ExternalResponse me = await insuranceManagementService.GetCustomerInsurances(document);
-			CustomerInsuranceResponse obj = JsonConvert.DeserializeObject<CustomerInsuranceResponse>(me.Body);
-
-			Assert.AreEqual(2, obj.CustomerInsurance.Count);
+			Assert.AreEqual(2, obj.Count);
 		}
 
 		[Test]
 		public async Task CreateCustomerInsurance()
 		{
-			string document = "98632674";
-			var json = JsonConvert.SerializeObject(customerInsurance);
-
-			ExternalResponse httpResponse = await insuranceManagementService.CreateCustomerInsurance(document, json);
-			Assert.AreEqual(204, httpResponse.StatusCode);
+			var httpResponse = controller.CreateCustomerInsurance("98632673", customerInsurance);
+			Assert.AreEqual(204, ((ObjectResult)httpResponse.Result).StatusCode);
 		}
 
 		[Test]
 		public async Task DeleteCustomerInsurance()
 		{
-			string document = "98632674";
-			int insuranceId = 1;
-
-			ExternalResponse httpResponse = await insuranceManagementService.DeleteCustomerInsurance(document, insuranceId);
-			Assert.AreEqual(204, httpResponse.StatusCode);
+			var httpResponse = controller.DeleteCustomerInsurance("98632673", 1);
+			Assert.AreEqual(204, ((ObjectResult)httpResponse.Result).StatusCode);
 		}
 
 		[Test]
 		public async Task GetCustomers()
 		{
-			ExternalResponse customers = await insuranceManagementService.GetCustomers();
-			var obj = JsonConvert.DeserializeObject<dynamic>(customers.Body);
+			var httpResponse = controller.getCustomers();
+			List<DTO.Customer> obj = (List<DTO.Customer>)((ObjectResult)httpResponse.Result).Value;
 
-			Assert.AreEqual(3, obj.Customers.Count);
+			Assert.AreEqual(3, obj.Count);
 		}
 	}
 }

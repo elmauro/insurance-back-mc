@@ -10,7 +10,7 @@ namespace MC.Insurance.Infrastructure
         { }
         public DbSet<DTO.Insurance> Insurances { get; set; }
         public DbSet<DTO.CustomerInsurance> CustomerInsurances { get; set; }
-        public DbSet<DTO.tbCustomer> Customer { get; set; }
+        public DbSet<DTO.TbCustomer> Customer { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,12 +47,12 @@ namespace MC.Insurance.Infrastructure
 				}
 			);
 
-			modelBuilder.Entity<DTO.tbCustomer>().HasData(
-				new DTO.tbCustomer
+			modelBuilder.Entity<DTO.TbCustomer>().HasData(
+				new DTO.TbCustomer
 				{
-					customerId = 1,
-					document = "98632674",
-					customerName = "Mauricio Cadavid"
+					CustomerId = 1,
+					Document = "98632674",
+					CustomerName = "Mauricio Cadavid"
 				}
 			);
 		}

@@ -7,12 +7,10 @@ namespace MC.Insurance.Infrastructure
 {
     public class SplunkLogger : ISplunkLogger
     {
-        Serilog.Core.Logger logger;
-        private IOptions<SplunkConfig> settings;
+        readonly Serilog.Core.Logger logger;
 
         public SplunkLogger(IOptions<SplunkConfig> settings) {
-            this.settings = settings;
-            SplunkConfig splunk = this.settings.Value;
+            SplunkConfig splunk = settings.Value;
 
             this.logger = new LoggerConfiguration()
             .WriteTo.EventCollector(splunk.Url, splunk.Token)

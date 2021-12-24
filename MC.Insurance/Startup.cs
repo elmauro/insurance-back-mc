@@ -38,11 +38,8 @@ namespace insurance_back_mc
 
 			services.AddControllers();
 
-			services.AddSingleton<IInsuranceDomain, InsuranceDomain>();
-			services.AddSingleton<ISerializer, Serializer>();
 			services.AddSingleton<IInsuranceRepository, InsuranceRepository>();
-			services.AddSingleton<ISerializer, Serializer>();
-			services.AddSingleton<IServiceResponse, ServiceResponse>();
+			services.AddSingleton<IInsuranceDomain, InsuranceDomain>();
 			services.AddSingleton<IInsuranceManagementService, InsuranceManagementService>();
 			services.AddSingleton<ISplunkLogger, SplunkLogger>();
 			services.AddDbContext<InsuranceContext>(item => item.UseSqlServer(Configuration.GetConnectionString("DefaultDatabase")));

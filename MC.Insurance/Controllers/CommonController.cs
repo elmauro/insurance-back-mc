@@ -1,5 +1,6 @@
 ﻿using MC.Insurance.DTO;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 
@@ -7,20 +8,14 @@ namespace insurance_back_mc.Controllers
 {
     public class CommonController: Controller
 	{
-        public async Task<IActionResult> CreateResponseWithCode(object response, int statusCode)
+        public IActionResult CreateResponse(Response response)
         {
-            return StatusCode(statusCode, response);
+            return StatusCode(response.StatusCode, response.Body);
         }
 
-        public async Task<IActionResult> CreateErrorMessageForException(Exception ex)
+        public IActionResult CreateErrorMessageForException(Exception ex)
         {
-            var error = new
-            {
-                exception = ex
-            };
-
-            // LLamamos a Splunk para almacenar los datos a Splunk
-           ErrorMessage errorMessage = new ErrorMessage() { resultMsg = ex.Message };
+            ErrorMessage errorMessage = new ErrorMessage() { resultMsg = ex.Message };
             return StatusCode(500, errorMessage.resultMsg);
         }
     }

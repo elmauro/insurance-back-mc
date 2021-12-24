@@ -12,8 +12,7 @@ namespace MC.Insurance.Infrastructure
     public class InsuranceRepository : IInsuranceRepository
 	{
 		InsuranceContext DataContext;
-		private IOptions<ConnectionStrings> settings;
-		static int insuranceId=0;
+		private readonly IOptions<ConnectionStrings> settings;
 
 		public InsuranceRepository(IOptions<ConnectionStrings> settings) 
 		{
@@ -71,8 +70,6 @@ namespace MC.Insurance.Infrastructure
 
 		public Task<string> InsertInsurance(DTO.Insurance insurance)
 		{
-			insuranceId++;
-			insurance.insuranceId = insuranceId;
 			DataContext.Insurances.Add(insurance);
 			DataContext.SaveChanges();
 
@@ -109,10 +106,10 @@ namespace MC.Insurance.Infrastructure
 
 		public Task<IEnumerable> GetCustomers()
 		{
-			CustomerResponses response = new CustomerResponses();
-			response.Customers = new List<Customer>();
+			ListResponse<Customer> response = new ListResponse<Customer>();
+			response.List = new List<Customer>();
 
-			response.Customers.Add(
+			response.List.Add(
 				new Customer
 				{
 					document = "98632674",
@@ -120,7 +117,7 @@ namespace MC.Insurance.Infrastructure
 				}
 			);
 
-			response.Customers.Add(
+			response.List.Add(
 				new Customer
 				{
 					document = "8288221",
@@ -128,7 +125,7 @@ namespace MC.Insurance.Infrastructure
 				}
 			);
 
-			response.Customers.Add(
+			response.List.Add(
 				new Customer
 				{
 					document = "43160724",
@@ -138,7 +135,7 @@ namespace MC.Insurance.Infrastructure
 
 			Task<IEnumerable> task = new Task<IEnumerable>(() =>
 			{
-				return response.Customers;
+				return response.List;
 			});
 			task.Start();
 			return task;
