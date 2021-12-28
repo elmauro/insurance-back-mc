@@ -12,7 +12,6 @@ namespace insurance_back_mc.Controllers
     public class InsuranceManagementController : CommonController
 	{
         private readonly ILogger<InsuranceManagementController> _logger;
-        private readonly ISplunkLogger splunkLogger;
 
         IInsuranceManagementService insuranceManagementService { get; set; }
 
@@ -20,11 +19,10 @@ namespace insurance_back_mc.Controllers
             ILogger<InsuranceManagementController> logger,
             IInsuranceManagementService insuranceManagementService,
             ISplunkLogger splunkLogger
-        )
+        ) : base(splunkLogger)
         {
             _logger = logger;
             this.insuranceManagementService = insuranceManagementService;
-            this.splunkLogger = splunkLogger;
         }
 
         [HttpGet]
@@ -35,7 +33,7 @@ namespace insurance_back_mc.Controllers
             {
                 Response httpResponse = await insuranceManagementService.GetInsurance(insuranceId);
                 _logger.LogInformation("Logging Insurance status {status} for {insurance}", httpResponse.StatusCode, httpResponse.Body);
-                splunkLogger.LogInformation("Logging Insurance status {status} for {insurance}", httpResponse.StatusCode, httpResponse.Body);
+                
                 return CreateResponse(httpResponse);
             }
             catch (Exception ex) {
@@ -69,7 +67,6 @@ namespace insurance_back_mc.Controllers
             }
             catch (Exception ex)
             {
-                splunkLogger.LogError("{message} - {inner}", ex.Message, ex.InnerException.ToString());
                 return CreateErrorMessageForException(ex);
             }
         }

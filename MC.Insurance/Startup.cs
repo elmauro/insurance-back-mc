@@ -66,6 +66,8 @@ namespace insurance_back_mc
 
 			app.UseAuthorization();
 
+			app.UseMiddleware<RequestResponseLoggingMiddleware>();
+
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapControllers();

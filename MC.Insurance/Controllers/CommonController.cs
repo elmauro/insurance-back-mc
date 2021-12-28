@@ -1,4 +1,5 @@
 ﻿using MC.Insurance.DTO;
+using MC.Insurance.Interfaces.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -8,6 +9,11 @@ namespace insurance_back_mc.Controllers
 {
     public class CommonController: Controller
 	{
+        private readonly ISplunkLogger splunkLogger;
+
+        public CommonController(ISplunkLogger splunkLogger) {
+            this.splunkLogger = splunkLogger;
+        }
         public IActionResult CreateResponse(Response response)
         {
             return StatusCode(response.StatusCode, response.Body);
