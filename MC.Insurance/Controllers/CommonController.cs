@@ -9,11 +9,7 @@ namespace insurance_back_mc.Controllers
 {
     public class CommonController: Controller
 	{
-        private readonly ISplunkLogger splunkLogger;
-
-        public CommonController(ISplunkLogger splunkLogger) {
-            this.splunkLogger = splunkLogger;
-        }
+        public CommonController() { }
         public IActionResult CreateResponse(Response response)
         {
             return StatusCode(response.StatusCode, response.Body);

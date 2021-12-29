@@ -1,6 +1,5 @@
 ﻿using MC.Insurance.Interfaces.Infrastructure;
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,77 +13,98 @@ namespace insurance_back_mc
     {
         private readonly RequestDelegate _next;
         private readonly ISplunkLogger _splunkLogger;
+        private readonly Microsoft.IO.RecyclableMemoryStreamManager _recyclableMemoryStreamManager;
 
         public RequestResponseLoggingMiddleware(RequestDelegate next, ISplunkLogger splunkLogger) {
             _next = next;
             _splunkLogger = splunkLogger;
+            _recyclableMemoryStreamManager = new Microsoft.IO.RecyclableMemoryStreamManager();
         }
 
         public async Task Invoke(HttpContext context)
         {
-            Stream originalResBody = context.Response.Body;
+            await LogRequest(context);
+            await LogResponse(context);
+        }
 
-            string requestBody = String.Empty;
-            string responseBody = String.Empty;
+        private async Task LogRequest(HttpContext context) {
+            context.Request.EnableBuffering();
+            await using var requestStream = _recyclableMemoryStreamManager.GetStream();
+            await context.Request.Body.CopyToAsync(requestStream);
+            
+            Logging("Request", ReadStreamInChunks(requestStream), context);
 
-            try
+            context.Request.Body.Position = 0;
+        }
+
+        private static string ReadStreamInChunks(Stream stream)
+        {
+            const int readChunkBufferLength = 4096;
+            stream.Seek(0, SeekOrigin.Begin);
+            using var textWriter = new StringWriter();
+            using var reader = new StreamReader(stream);
+            var readChunk = new char[readChunkBufferLength];
+            int readChunkLength;
+            do
             {
-                using (var resStream = new MemoryStream())
-                {
-                    Stream reqStream = context.Request.Body;
-                    context.Response.Body = resStream;
+                readChunkLength = reader.ReadBlock(readChunk,
+                                                   0,
+                                                   readChunkBufferLength);
+                textWriter.Write(readChunk, 0, readChunkLength);
+            } while (readChunkLength > 0);
+            return textWriter.ToString();
+        }
+        private async Task LogResponse(HttpContext context)
+        {
+            var originalBodyStream = context.Response.Body;
 
-                    await _next(context);
+            await using var responseBody = _recyclableMemoryStreamManager.GetStream();
+            context.Response.Body = responseBody;
 
-                    resStream.Position = 0;
+            await _next(context);
 
-                    responseBody = new StreamReader(resStream).ReadToEnd();
-                    requestBody = await new StreamReader(reqStream).ReadToEndAsync();
+            context.Response.Body.Seek(0, SeekOrigin.Begin);
+            var text = await new StreamReader(context.Response.Body).ReadToEndAsync();
+            context.Response.Body.Seek(0, SeekOrigin.Begin);
+            
+            Logging("Response", text, context);
 
-                    resStream.Position = 0;
+            await responseBody.CopyToAsync(originalBodyStream);
+        }
 
-                    await resStream.CopyToAsync(originalResBody);
-                }
+        private void Logging(string header, string lastArg, HttpContext context) {
+            List<object> args = new List<object>{
+                context.Request?.Scheme,
+                context.Request?.Host,
+                context.Request?.Path.Value,
+                context.Request?.QueryString,
+                context.Response?.StatusCode,
+                lastArg
+            };
+
+            string message =
+                "Schema:{Scheme} " +
+                "Host: {Host} " +
+                "Path: {Path} " +
+                "QueryString: {QueryString} " +
+                "StatusCode: {StatusCode} ";
+
+            switch (header) {
+                case "Request":
+                    message = $"Http Request Information:{Environment.NewLine}" +
+                        message +
+                        "Request Body: {Body}";
+                    break;
+
+                default:
+                    message = $"Http Response Information:{Environment.NewLine}" +
+                        message +
+                        "Response Body: {Body}";
+                    break;
             }
-            finally
-            {
-                context.Response.Body = originalResBody;
 
-                List<object> args = new List<object>{
-                    context.Request?.Method,
-                    context.Request?.Path.Value,
-                    context.Response?.StatusCode
-                };
 
-                string message;
-                switch (context.Request?.Method)
-                {
-                    case "GET":
-                    case "DELETE":
-                        message = "Request {method} {url} => {statusCode} {body}";
-                        break;
-
-                    default:
-                        message = "Request {method} {url} => {statusCode} {requestBody} {responseBody}";
-                        args.Add(requestBody);
-                        break;
-
-                }
-
-                args.Add(responseBody);
-
-                switch (context.Response.StatusCode) {
-                    case 500:
-                        _splunkLogger.LogError(
-                        message, args.ToArray());
-                        break;
-
-                    default:
-                        _splunkLogger.LogInformation(
-                        message, args.ToArray());
-                        break;
-                }               
-            }
+            _splunkLogger.LogInformation(message, args.ToArray());
         }
     }
 }

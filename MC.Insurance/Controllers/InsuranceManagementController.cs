@@ -17,9 +17,8 @@ namespace insurance_back_mc.Controllers
 
         public InsuranceManagementController(
             ILogger<InsuranceManagementController> logger,
-            IInsuranceManagementService insuranceManagementService,
-            ISplunkLogger splunkLogger
-        ) : base(splunkLogger)
+            IInsuranceManagementService insuranceManagementService
+        )
         {
             _logger = logger;
             this.insuranceManagementService = insuranceManagementService;
@@ -58,7 +57,7 @@ namespace insurance_back_mc.Controllers
 
         [HttpPost]
         [Route("/insurances")]
-        public async Task<IActionResult> CreateInsurance(Insurance content)
+        public async Task<IActionResult> CreateInsurance([FromBody]Insurance content)
         {
             try
             {
@@ -73,7 +72,7 @@ namespace insurance_back_mc.Controllers
 
         [HttpPut]
         [Route("/insurances/{insuranceId}")]
-        public async Task<IActionResult> UpdateInsurance([FromRoute] int insuranceId, Insurance insurance)
+        public async Task<IActionResult> UpdateInsurance([FromRoute]int insuranceId, [FromBody]Insurance insurance)
         {
             try
             {
@@ -133,7 +132,7 @@ namespace insurance_back_mc.Controllers
 
         [HttpPost]
         [Route("/customers/{document}/insurances")]
-        public async Task<IActionResult> CreateCustomerInsurance([FromRoute]string document, CustomerInsurance customerInsurance)
+        public async Task<IActionResult> CreateCustomerInsurance([FromRoute]string document, [FromBody]CustomerInsurance customerInsurance)
         {
             try
             {
@@ -153,6 +152,21 @@ namespace insurance_back_mc.Controllers
             try
             {
                 Response httpResponse = await insuranceManagementService.DeleteCustomerInsurance(document, insuranceId);
+                return CreateResponse(httpResponse);
+            }
+            catch (Exception ex)
+            {
+                return CreateErrorMessageForException(ex);
+            }
+        }
+
+        [HttpPost]
+        [Route("/login")]
+        public async Task<IActionResult> Login([FromBody]UserLogin loginUser)
+        {
+            try
+            {
+                Response httpResponse = await insuranceManagementService.Login(loginUser.userName, loginUser.password);
                 return CreateResponse(httpResponse);
             }
             catch (Exception ex)

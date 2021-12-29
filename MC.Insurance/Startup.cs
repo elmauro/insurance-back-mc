@@ -28,6 +28,7 @@ namespace insurance_back_mc
 		{
 			services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
 			services.Configure<SplunkConfig>(Configuration.GetSection("SplunkConfig"));
+			services.Configure<LdapConfig>(Configuration.GetSection("Ldap"));
 
 			services.AddOptions();
 
@@ -39,6 +40,7 @@ namespace insurance_back_mc
 			services.AddControllers();
 
 			services.AddSingleton<IInsuranceRepository, InsuranceRepository>();
+			services.AddSingleton<IAuthenticationService, LdapAuthentication>();
 			services.AddSingleton<IInsuranceDomain, InsuranceDomain>();
 			services.AddSingleton<IInsuranceManagementService, InsuranceManagementService>();
 			services.AddSingleton<ISplunkLogger, SplunkLogger>();

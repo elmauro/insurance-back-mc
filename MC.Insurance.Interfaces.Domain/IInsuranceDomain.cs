@@ -22,5 +22,7 @@ namespace MC.Insurance.Interfaces.Domain
         DTO.CustomerInsurance UpdateValues(string document, DTO.CustomerInsurance add);
 
         Response CreateResponse(Enumerations.StatusCode StatusCode, object Response);
+
+        Task<User> Login(string userName, string password);
     }
 }

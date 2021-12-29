@@ -25,7 +25,6 @@ namespace MC.Insurance.ApplicationServicesTest
 	{
 		InsuranceManagementController controller;
 		IInsuranceManagementService insuranceManagementService;
-		ISplunkLogger splunkLogger;
 		
 		DTO.Insurance insurance;
 		DTO.CustomerInsurance customerInsurance;
@@ -68,21 +67,21 @@ namespace MC.Insurance.ApplicationServicesTest
 			mock.Setup(i => i.InsertCustomerInsurance(customerInsurance)).Returns(Task.FromResult(String.Empty));
 			mock.Setup(i => i.DeleteCustomerInsurance("98632674", 1)).Returns(Task.FromResult(String.Empty));
 
-			IInsuranceDomain InsuranceDomain = new InsuranceDomain(mock.Object);
+			IOptions<LdapConfig> ldap = Options.Create<LdapConfig>(new LdapConfig() {
+				Path = "ldap://127.0.0.1:10389",
+				UserDomainName = "uid=test,ou=users,dc=wimpi,dc=net"
+			});
+
+			IAuthenticationService AuthenticationService = new LdapAuthentication(ldap);
+			IInsuranceDomain InsuranceDomain = new InsuranceDomain(mock.Object, AuthenticationService);
 
 			insuranceManagementService = new InsuranceManagementService(
 				InsuranceDomain
 			);
 
-			IOptions<SplunkConfig> someOptions = Options.Create<SplunkConfig>(new SplunkConfig() { 
-				Url = "http://192.168.1.3:8088/services/collector",
-				Token = "403a559e-9ed7-4ef8-9be2-7cb2f969d416"
-			});
-			splunkLogger = new SplunkLogger(someOptions);
-
 			ILogger<InsuranceManagementController> logger = Mock.Of<ILogger<InsuranceManagementController>>();
 
-			controller = new InsuranceManagementController(logger, insuranceManagementService, splunkLogger);
+			controller = new InsuranceManagementController(logger, insuranceManagementService);
 		}
 
 		[Test]

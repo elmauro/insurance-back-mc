@@ -10,11 +10,14 @@ namespace MC.Insurance.Domain
     public class InsuranceDomain: IInsuranceDomain
     {
         public IInsuranceRepository InsuranceRepository { get; set; }
+        public IAuthenticationService AuthenticationService { get; set; }
 
         public InsuranceDomain(
-            IInsuranceRepository InsuranceRepository
+            IInsuranceRepository InsuranceRepository,
+            IAuthenticationService AuthenticationService
         ) { 
             this.InsuranceRepository = InsuranceRepository;
+            this.AuthenticationService = AuthenticationService;
         }
 
 		public DTO.Insurance AsignCoverage(DTO.Insurance add)
@@ -109,6 +112,12 @@ namespace MC.Insurance.Domain
                 StatusCode = (int)StatusCode,
                 Body = Response
             };
+        }
+
+        public async Task<User> Login(string userName, string password)
+        {
+            DTO.User httpResponse = await AuthenticationService.Login(userName, password);
+            return httpResponse;
         }
     }
 }

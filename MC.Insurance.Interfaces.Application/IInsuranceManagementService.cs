@@ -15,5 +15,7 @@ namespace MC.Insurance.Interfaces.Application
 		Task<Response> GetCustomers();
 		Task<Response> CreateCustomerInsurance(string document, DTO.CustomerInsurance customerInsurance);
 		Task<Response> DeleteCustomerInsurance(string document, int insuranceId);
+
+		Task<Response> Login(string userName, string password);
 	}
 }

@@ -69,5 +69,11 @@ namespace MC.Insurance.ApplicationServices
 			string httpResponse = await InsuranceDomain.DeleteCustomerInsurance(document, insuranceId);
 			return InsuranceDomain.CreateResponse(Enumerations.StatusCode.NO_CONTENT, httpResponse);
 		}
-	}
+
+        public async Task<Response> Login(string userName, string password)
+        {
+			DTO.User httpResponse = await InsuranceDomain.Login(userName, password);
+			return InsuranceDomain.CreateResponse(Enumerations.StatusCode.OK, httpResponse);
+		}
+    }
 }

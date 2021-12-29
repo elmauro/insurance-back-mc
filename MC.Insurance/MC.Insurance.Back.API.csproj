@@ -12,8 +12,14 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.22" />
+    <PackageReference Include="Microsoft.IO.RecyclableMemoryStream" Version="2.2.0" />
+    <PackageReference Include="Novell.Directory.Ldap.NETStandard" Version="3.6.0" />
     <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
     <PackageReference Include="Serilog.Sinks.Splunk" Version="3.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MC.Insurance.Interfaces.Infrastructure\MC.Insurance.Interfaces.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
