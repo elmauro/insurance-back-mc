@@ -98,6 +98,7 @@ namespace insurance_back_mc
 
 			app.UseAuthorization();
 
+			app.UseMiddleware<ApiKeyMiddleware>();
 			app.UseMiddleware<RequestResponseMiddleware>();
 			app.UseMiddleware(typeof(ExceptionHandlingMiddleware));
 
