@@ -14,11 +14,5 @@ namespace insurance_back_mc.Controllers
         {
             return StatusCode(response.StatusCode, response.Body);
         }
-
-        public IActionResult CreateErrorMessageForException(Exception ex)
-        {
-            ErrorMessage errorMessage = new ErrorMessage() { resultMsg = ex.Message };
-            return StatusCode(500, errorMessage.resultMsg);
-        }
     }
 }

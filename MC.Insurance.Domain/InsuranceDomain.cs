@@ -4,6 +4,7 @@ using System.Collections;
 using MC.Insurance.Interfaces.Infrastructure;
 using MC.Insurance.Interfaces.Domain;
 using MC.Insurance.DTO;
+using static MC.Insurance.DTO.Enumerations;
 
 namespace MC.Insurance.Domain
 {
@@ -116,7 +117,19 @@ namespace MC.Insurance.Domain
 
         public async Task<User> Login(string userName, string password)
         {
-            DTO.User httpResponse = await AuthenticationService.Login(userName, password);
+            try
+            {
+                DTO.User httpResponse = await AuthenticationService.Login(userName, password);
+                return httpResponse;
+            }
+            catch (Exception ex) {
+                throw new CustomException(ex, StatusCode.FORBIDDEN, "Unauthorized");
+            }
+        }
+
+        public async Task<string> CreateTokenJWT(User user)
+        {
+            string httpResponse = await AuthenticationService.CreateTokenJWT(user);
             return httpResponse;
         }
     }

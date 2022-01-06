@@ -75,5 +75,11 @@ namespace MC.Insurance.ApplicationServices
 			DTO.User httpResponse = await InsuranceDomain.Login(userName, password);
 			return InsuranceDomain.CreateResponse(Enumerations.StatusCode.OK, httpResponse);
 		}
+
+        public async Task<Response> CreateTokenJWT(User user)
+        {
+			string httpResponse = await InsuranceDomain.CreateTokenJWT(user);
+			return InsuranceDomain.CreateResponse(Enumerations.StatusCode.OK, httpResponse);
+		}
     }
 }

@@ -9,5 +9,6 @@ namespace MC.Insurance.Interfaces.Infrastructure
     public interface IAuthenticationService
     {
         Task<User> Login(string userName, string password);
+        Task<string> CreateTokenJWT(DTO.User user);
     }
 }

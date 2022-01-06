@@ -17,5 +17,6 @@ namespace MC.Insurance.Interfaces.Application
 		Task<Response> DeleteCustomerInsurance(string document, int insuranceId);
 
 		Task<Response> Login(string userName, string password);
+		Task<Response> CreateTokenJWT(DTO.User user);
 	}
 }

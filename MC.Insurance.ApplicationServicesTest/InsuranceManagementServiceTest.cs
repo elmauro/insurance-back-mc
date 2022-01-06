@@ -72,7 +72,14 @@ namespace MC.Insurance.ApplicationServicesTest
 				UserDomainName = "uid=test,ou=users,dc=wimpi,dc=net"
 			});
 
-			IAuthenticationService AuthenticationService = new LdapAuthentication(ldap);
+			IOptions<JWTConfig> jwt = Options.Create<JWTConfig>(new JWTConfig()
+			{
+				ClaveSecreta = "OLAh6Yh5KwNFvOqgltw7",
+				Issuer = "www.rafaelacosta.net",
+				Audience = "www.rafaelacosta.net/api/miwebapi"
+			});
+
+			IAuthenticationService AuthenticationService = new LdapAuthentication(ldap, jwt);
 			IInsuranceDomain InsuranceDomain = new InsuranceDomain(mock.Object, AuthenticationService);
 
 			insuranceManagementService = new InsuranceManagementService(
