@@ -9,20 +9,18 @@ namespace insurance_back_mc
 {
     public class ExceptionHandlingMiddleware : LoggingMiddleware
     {
-        public RequestDelegate requestDelegate { get; set; }
-        private readonly ISplunkLogger _splunkLogger;
+        public RequestDelegate RequestDelegate { get; set; }
 
         public ExceptionHandlingMiddleware(RequestDelegate requestDelegate, ISplunkLogger splunkLogger)
         : base(splunkLogger)
         {
-            this.requestDelegate = requestDelegate;
-            this._splunkLogger = splunkLogger;
+            this.RequestDelegate = requestDelegate;
         }
         public async Task Invoke(HttpContext context)
         {
             try
             {
-                await requestDelegate(context);
+                await RequestDelegate(context);
             }
             catch (CustomException ex)
             {
@@ -39,7 +37,16 @@ namespace insurance_back_mc
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = statusCode;
 
-            Logging("Error", ex.InnerException.Message ?? ex.Message, context);
+            string message = "Source:" + Environment.NewLine;
+            message += ex.InnerException?.Source ?? ex.Source;
+            message += Environment.NewLine;
+            message += "Message:" + Environment.NewLine;
+            message += ex.InnerException?.Message ?? ex.Message;
+            message += Environment.NewLine;
+            message += "StackTrace:" + Environment.NewLine;
+            message += ex.InnerException?.StackTrace ?? ex.StackTrace;
+
+            Logging("Error", message, context);
 
             return context.Response.WriteAsync(result);
         }

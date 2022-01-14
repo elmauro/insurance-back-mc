@@ -72,7 +72,7 @@ namespace MC.Insurance.ApplicationServicesTest
 				UserDomainName = "uid=test,ou=users,dc=wimpi,dc=net"
 			});
 
-			IOptions<JWTConfig> jwt = Options.Create<JWTConfig>(new JWTConfig()
+			IOptions<JwtConfig> jwt = Options.Create<JwtConfig>(new JwtConfig()
 			{
 				ClaveSecreta = "OLAh6Yh5KwNFvOqgltw7",
 				Issuer = "www.rafaelacosta.net",

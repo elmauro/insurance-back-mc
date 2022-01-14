@@ -9,13 +9,11 @@ namespace insurance_back_mc
     public class RequestResponseMiddleware : LoggingMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ISplunkLogger _splunkLogger;
         private readonly Microsoft.IO.RecyclableMemoryStreamManager _recyclableMemoryStreamManager;
 
         public RequestResponseMiddleware(RequestDelegate next, ISplunkLogger splunkLogger)
         : base(splunkLogger){
             _next = next;
-            _splunkLogger = splunkLogger;
             _recyclableMemoryStreamManager = new Microsoft.IO.RecyclableMemoryStreamManager();
         }
 

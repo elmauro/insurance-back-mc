@@ -16,9 +16,9 @@ namespace MC.Insurance.Infrastructure
     public class LdapAuthentication : IAuthenticationService
     {
         private readonly LdapConfig config;
-        private readonly JWTConfig jwtConfig;
+        private readonly JwtConfig jwtConfig;
 
-        public LdapAuthentication(IOptions<LdapConfig> config, IOptions<JWTConfig> jwtConfig)
+        public LdapAuthentication(IOptions<LdapConfig> config, IOptions<JwtConfig> jwtConfig)
         {
             this.config = config.Value;
             this.jwtConfig = jwtConfig.Value;
@@ -75,7 +75,7 @@ namespace MC.Insurance.Infrastructure
                     Encoding.UTF8.GetBytes(jwtConfig.ClaveSecreta)
                 );
             var _signingCredentials = new SigningCredentials(
-                    _symmetricSecurityKey, SecurityAlgorithms.HmacSha256
+                    _symmetricSecurityKey, SecurityAlgorithms.HmacSha512
                 );
             var _Header = new JwtHeader(_signingCredentials);
 

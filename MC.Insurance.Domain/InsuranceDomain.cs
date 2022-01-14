@@ -36,20 +36,41 @@ namespace MC.Insurance.Domain
 
         public async Task<string> DeleteCustomerInsurance(string document, int insuranceId)
         {
-            string httpResponse = await InsuranceRepository.DeleteCustomerInsurance(document, insuranceId);
-            return httpResponse;
+            try
+            {
+                string httpResponse = await InsuranceRepository.DeleteCustomerInsurance(document, insuranceId);
+                return httpResponse;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex, StatusCode.NOT_FOUND, "Not Found");
+            }            
         }
 
         public async Task<string> DeleteInsurance(int insuranceId)
         {
-            string httpResponse = await InsuranceRepository.DeleteInsurance(insuranceId);
-            return httpResponse;
+            try
+            {
+                string httpResponse = await InsuranceRepository.DeleteInsurance(insuranceId);
+                return httpResponse;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex, StatusCode.NOT_FOUND, "Not Found");
+            }
         }
 
         public async Task<IEnumerable> GetCustomerByID(string document)
         {
-            IEnumerable httpResponse = await InsuranceRepository.GetCustomerByID(document);
-            return httpResponse;
+            try
+            {
+                IEnumerable httpResponse = await InsuranceRepository.GetCustomerByID(document);
+                return httpResponse;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex, StatusCode.NOT_FOUND, "Not Found");
+            }
         }
 
         public async Task<IEnumerable> GetCustomers()
@@ -60,8 +81,15 @@ namespace MC.Insurance.Domain
 
         public async Task<DTO.Insurance> GetInsuranceByID(int insuranceId)
         {
-            DTO.Insurance httpResponse = await InsuranceRepository.GetInsuranceByID(insuranceId);
-            return httpResponse;
+            try
+            {
+                DTO.Insurance httpResponse = await InsuranceRepository.GetInsuranceByID(insuranceId);
+                return httpResponse;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex, StatusCode.NOT_FOUND, "Not Found");
+            }
         }
 
         public async Task <IEnumerable> GetInsurances()
@@ -92,10 +120,17 @@ namespace MC.Insurance.Domain
 
         public async Task<string> UpdateInsurance(int insuranceId, DTO.Insurance insurance)
         {
-            insurance = this.UpdateInsuraceId(insuranceId, insurance);
-            insurance = this.AsignCoverage(insurance);
-            string httpResponse = await InsuranceRepository.UpdateInsurance(insurance);
-            return httpResponse;
+            try
+            {
+                insurance = this.UpdateInsuraceId(insuranceId, insurance);
+                insurance = this.AsignCoverage(insurance);
+                string httpResponse = await InsuranceRepository.UpdateInsurance(insurance);
+                return httpResponse;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex, StatusCode.NOT_FOUND, "Not Found");
+            }
         }
 
         public CustomerInsurance UpdateValues(string document, CustomerInsurance add)
@@ -123,7 +158,7 @@ namespace MC.Insurance.Domain
                 return httpResponse;
             }
             catch (Exception ex) {
-                throw new CustomException(ex, StatusCode.FORBIDDEN, "Unauthorized");
+                throw new CustomException(ex, StatusCode.UNAUTHORIZED, "Unauthorized");
             }
         }
 

@@ -1,14 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace MC.Insurance.DTO
 {
+    [Serializable]
     public class CustomException : Exception
     {
         public Enumerations.StatusCode statusCode { get; }
 
-        protected CustomException() { }
+        public CustomException()
+        {
+        }
+
+        public CustomException(string message)
+            : base(message)
+        {
+        }
+
+        public CustomException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+
+        // Without this constructor, deserialization will fail
+        protected CustomException(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+        }
 
         public CustomException(Enumerations.StatusCode statusCode, string message)
             : base(message)

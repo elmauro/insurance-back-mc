@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MC.Insurance.DTO
 {
-    public class JWTConfig
+    public class JwtConfig
     {
         public string ClaveSecreta { get; set; }
         public string Issuer { get; set; }

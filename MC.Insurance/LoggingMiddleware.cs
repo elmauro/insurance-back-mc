@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 
 namespace insurance_back_mc
 {
@@ -15,19 +17,37 @@ namespace insurance_back_mc
 
         public void Logging(string header, string lastArg, HttpContext context)
         {
+            string authorization = context.Request?.Headers["Authorization"];
+            string userId = string.Empty;
+
+            if (authorization != null && authorization.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+            {
+                var token = authorization.Substring("Bearer ".Length).Trim();
+                var handler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = handler.ReadJwtToken(token);
+
+                userId = jwtSecurityToken.Claims.First(x => x.Type == "nombre").Value;
+            }
+
             List<object> args = new List<object>{
+                userId,
                 context.Request?.Scheme,
                 context.Request?.Host,
+                header == "Request" ? context.Request?.Headers : context.Response?.Headers,
                 context.Request?.Path.Value,
+                context.Request?.Method,
                 context.Request?.QueryString,
                 context.Response?.StatusCode,
-                lastArg
+                context.Request?.Path.Value == "/login" && header != "Error" ? String.Empty :lastArg
             };
 
             string message =
+                "UserId:{UserId} " +
                 "Schema:{Scheme} " +
                 "Host: {Host} " +
+                "Headers: {Headers} " +
                 "Path: {Path} " +
+                "Method: {Method} " +
                 "QueryString: {QueryString} " +
                 "StatusCode: {StatusCode} ";
 

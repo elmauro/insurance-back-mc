@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace insurance_back_mc
@@ -17,8 +18,11 @@ namespace insurance_back_mc
         {
             if (!context.Request.Headers.TryGetValue(APIKEYNAME, out var extractedApiKey))
             {
+                var result = JsonConvert.SerializeObject(new { error = "Api Key was not provided. (Using ApiKeyMiddleware)" });
+                context.Response.ContentType = "application/json";
                 context.Response.StatusCode = 401;
-                await context.Response.WriteAsync("Api Key was not provided. (Using ApiKeyMiddleware) ");
+
+                await context.Response.WriteAsync(result);
                 return;
             }
 
@@ -28,8 +32,11 @@ namespace insurance_back_mc
 
             if (!apiKey.Equals(extractedApiKey))
             {
+                var result = JsonConvert.SerializeObject(new { error = "Unauthorized client. (Using ApiKeyMiddleware)" });
+                context.Response.ContentType = "application/json";
                 context.Response.StatusCode = 401;
-                await context.Response.WriteAsync("Unauthorized client. (Using ApiKeyMiddleware)");
+
+                await context.Response.WriteAsync(result);
                 return;
             }
 

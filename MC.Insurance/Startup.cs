@@ -51,7 +51,7 @@ namespace insurance_back_mc
 			services.Configure<ConnectionStrings>(Configuration.GetSection("ConnectionStrings"));
 			services.Configure<SplunkConfig>(Configuration.GetSection("SplunkConfig"));
 			services.Configure<LdapConfig>(Configuration.GetSection("Ldap"));
-			services.Configure<JWTConfig>(Configuration.GetSection("JWT"));
+			services.Configure<JwtConfig>(Configuration.GetSection("JWT"));
 
 			services.AddOptions();
 
@@ -125,7 +125,7 @@ namespace insurance_back_mc
 					{
 						Name = "Insurance Company",
 						Email = string.Empty,
-						Url = new Uri("https://foo.com/"),
+						Url = new Uri(Configuration["Url"]),
 					}
 				});
 			});
