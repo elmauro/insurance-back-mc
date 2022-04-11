@@ -1,0 +1,19 @@
+namespace: repository
+output: /data/results/result.csv
+working_dir: /data
+path:
+  include:
+  - glob(**/*.cs)
+  #- glob(insurance-front-mc/node_modules/@angular/animations/**/*.ts)
+  #- glob(insurance-front-mc/node_modules/@angular/common/**/*.ts)
+  #- glob(insurance-front-mc/node_modules/@angular/compiler/**/*.ts)
+  #- glob(insurance-front-mc/node_modules/@angular/core/**/*.ts)
+  #- glob(insurance-front-mc/node_modules/@angular/forms/**/*.ts)
+  #- glob(insurance-front-mc/node_modules/@angular/http/**/*.ts)
+  #- glob(insurance-front-mc/node_modules/@angular/platform-browser/**/*.ts)
+  #- glob(insurance-front-mc/node_modules/@angular/platform-browser-dynamic/**/*.ts)
+  #- glob(insurance-front-mc/node_modules/@angular/router/**/*.ts)
+  #- glob(insurance-front-mc/node_modules/rxjs/**/*.ts)
+  #- glob(insurance-front-mc/node_modules/tslib/**/*.ts)
+  #- glob(insurance-front-mc/node_modules/zone.js/**/*.ts)
+language: EN

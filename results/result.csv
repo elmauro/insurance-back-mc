@@ -1,0 +1,25 @@
+finding,kind,what,where,cwe,stream,title,description,snippet,method
+F134,lines,repository/MC.Insurance/Startup.cs,77,16,skims,134. Insecure or unset HTTP headers - CORS,The cors policy allows any origin in repository/MC.Insurance/Startup.cs,"
+   67 |    services.AddSingleton<IAuthenticationService, LdapAuthentication>();
+   68 |    services.AddSingleton<IInsuranceDomain, InsuranceDomain>();
+   69 |    services.AddSingleton<IInsuranceManagementService, InsuranceManagementService>();
+   70 |    services.AddSingleton<ISplunkLogger, SplunkLogger>();
+   71 |    services.AddDbContext<InsuranceContext>(item => item.UseSqlServer(Configuration.GetConnectionString(""DefaultDatabase"")
+   72 |   }
+   73 |
+   74 |   // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+   75 |   public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+   76 |   {
+>  77 |    app.UseCors(options => options
+   78 |     .AllowAnyOrigin()
+   79 |     .AllowAnyMethod()
+   80 |     .AllowAnyHeader()
+   81 |    );
+   82 |
+   83 |    if (env.IsDevelopment())
+   84 |    {
+   85 |     app.UseDeveloperExceptionPage();
+   86 |    }
+   87 |
+      ^ Col 0
+",c_sharp.insecure_cors

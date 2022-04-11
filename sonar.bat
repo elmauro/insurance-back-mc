@@ -1,4 +1,4 @@
-dotnet sonarscanner begin /k:insurance /d:sonar.login=ef36e503626f9b80019640679e3d08372cccf56b /d:sonar.host.url=http://192.168.1.5:9000 /d:sonar.language="cs" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.coverage.exclusions="**/MC.Insurance.Infrastructure/Migrations/*.cs,**/MC.Insurance/**/*.cs,Project.Tests/**,**/*Tests.cs" /d:sonar.cs.opencover.reportsPaths="%cd%\lcov.opencover.xml"
+dotnet sonarscanner begin /k:insurance /d:sonar.login=6ff1fcc593515e6bc7c6a378f2fac1d17183f54f /d:sonar.host.url=http://192.168.1.1:9000 /d:sonar.language="cs" /d:sonar.exclusions="**/bin/**/*,**/obj/**/*" /d:sonar.coverage.exclusions="**/MC.Insurance.Infrastructure/Migrations/*.cs,**/MC.Insurance/**/*.cs,Project.Tests/**,**/*Tests.cs" /d:sonar.cs.opencover.reportsPaths="%cd%\lcov.opencover.xml"
 dotnet build MC.Insurance/MC.Insurance.Back.sln
 dotnet test MC.Insurance.ApplicationServicesTest/MC.Insurance.ApplicationServicesTest.csproj /p:CollectCoverage=true /p:CoverletOutputFormat=\"opencover,lcov\" /p:CoverletOutput=../lcov
-dotnet sonarscanner end /d:sonar.login=ef36e503626f9b80019640679e3d08372cccf56b
+dotnet sonarscanner end /d:sonar.login=6ff1fcc593515e6bc7c6a378f2fac1d17183f54f

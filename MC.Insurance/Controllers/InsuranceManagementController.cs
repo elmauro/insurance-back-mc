@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Threading.Tasks;
 
 namespace insurance_back_mc.Controllers
@@ -38,10 +39,25 @@ namespace insurance_back_mc.Controllers
         }
 
         [HttpGet]
-        [Route("/insurances")]
+        [Route("/countries")]
         public async Task<IActionResult> getInsurances()
         {
-            Response httpResponse = await insuranceManagementService.GetInsurances();
+            Response httpResponse = new Response(); //await insuranceManagementService.GetInsurances();
+            httpResponse.StatusCode = 200;
+            var Body = new {
+                insuranceId = 1,
+                name = "Incendios A1",
+                description = "Seguro de Incendios",
+                type = 2,
+                coverage = "50%",
+                start = "2000-09-11T00:00:00",
+                period = 12,
+                price = 200000,
+                risk = 4
+            };
+            ArrayList arr = new ArrayList();
+            arr.Add(Body);
+            httpResponse.Body = arr;
             return CreateResponse(httpResponse);
         }
 
